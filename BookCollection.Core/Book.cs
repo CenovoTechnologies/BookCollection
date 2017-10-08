@@ -26,7 +26,7 @@ namespace BookCollection.Core
 
         public BookFormat Format { get; set; }
 
-        public string NumberOfPages { get; set; }
+        public int? NumberOfPages { get; set; }
 
         public string LocClassification { get; set; }
 
@@ -34,7 +34,7 @@ namespace BookCollection.Core
 
         public string Publisher { get; set; }
 
-        public string PublisherDate { get; set; }
+        public DateTime PublisherDate { get; set; }
 
         public string Plot { get; set; }
 
