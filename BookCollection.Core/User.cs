@@ -7,15 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookCollection.Core
 {
-    public class Author : Person
+    public class User : Person
     {
         [Key]
-        public int AuthorId { get; set; }
-
-        public string WikipediaLink { get; set; }
-
-        public string SortName { get; set; }
-
-        public string Pseudonym { get; set; }
+        public int UserId { get; set; }
     }
 }

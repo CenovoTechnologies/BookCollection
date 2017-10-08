@@ -8,5 +8,6 @@ namespace BookCollection.Core.Interfaces
 {
     public interface ICollectible
     {
+        int Id { get; }
     }
 }
