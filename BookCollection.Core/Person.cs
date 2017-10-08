@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookCollection.Core
 {
@@ -15,5 +11,11 @@ namespace BookCollection.Core
         public string MiddleName { get; set; }
 
         public DateTime BirthDate { get; set; }
+
+        public DateTime DeathDate { get; set; }
+
+        public String BirthPlace { get; set; }
+
+        public String DeathPlace { get; set; }
     }
 }

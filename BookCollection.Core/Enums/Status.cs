@@ -11,6 +11,9 @@ namespace BookCollection.Core.Enums
         ForSale = 2,
 
         [Description("Wish List")]
-        WishList = 3
+        WishList = 3,
+
+        [Description("Not in Collection")]
+        NotInCollection = 4,
     }
 }

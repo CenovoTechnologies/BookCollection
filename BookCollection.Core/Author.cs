@@ -14,6 +14,8 @@ namespace BookCollection.Core
 
         public string WikipediaLink { get; set; }
 
+        public string WebsiteLink { get; set; }
+
         public string SortName { get; set; }
 
         public string Pseudonym { get; set; }
