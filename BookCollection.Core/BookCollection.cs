@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BookCollection.Core
 {
-    public class BookCollection : ICollection<Book>
+    public class BookCollection : Entity<Int32>, ICollection<Book>
     {
         public List<Book> Collection { get; set; }
         

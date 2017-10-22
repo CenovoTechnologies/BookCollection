@@ -1,21 +1,27 @@
-﻿using System;
+﻿using BookCollection.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BookCollection.Repository.Interfaces
 {
-    public interface IRepository<T> where T : EntityBase
+    public interface IRepository : IReadOnlyRepository
     {
-        T GetById(int id);
-        IEnumerable<T> List();
-        IEnumerable<T> List(Expression<Func<T, bool>> predicate);
-        void Add(T entity);
-        void Delete(T entity);
-        void Edit(T entity);
-    }
+        void Create<TEntity>(TEntity entity, string createdBy = null)
+            where TEntity : class, IEntity;
 
-    public abstract class EntityBase
-    {
-        public int Id { get; protected set; }
+        void Update<TEntity>(TEntity entity, string modifiedBy = null)
+            where TEntity : class, IEntity;
+
+        void Delete<TEntity>(object id)
+            where TEntity : class, IEntity;
+
+        void Delete<TEntity>(TEntity entity)
+            where TEntity : class, IEntity;
+
+        void Save();
+
+        Task SaveAsync();
     }
 }

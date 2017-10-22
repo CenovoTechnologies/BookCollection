@@ -2,7 +2,7 @@
 
 namespace BookCollection.Core
 {
-    public abstract class Person
+    public abstract class Person : Entity<Int32>
     {
         public string FirstName { get; set; }
 

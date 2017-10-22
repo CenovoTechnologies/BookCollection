@@ -1,15 +1,12 @@
 ﻿using BookCollection.Core.Enums;
-using BookCollection.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
-    public class Book : ICollectible
+    public class Book : Entity<Int32>
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         public string Title { get; set; }

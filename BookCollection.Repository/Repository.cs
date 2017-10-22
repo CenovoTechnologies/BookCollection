@@ -1,63 +1,90 @@
-﻿using BookCollection.Repository.Interfaces;
+﻿using BookCollection.Core.Interfaces;
+using BookCollection.Repository.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace BookCollection.Repository
 {
-    public class Repository<T> : IRepository<T> where T : EntityBase
+    public class Repository<TContext> : ReadOnlyRepository<TContext>, IRepository where TContext : DbContext
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public Repository(ApplicationDbContext dbContext)
+        public Repository(TContext context) : base(context)
         {
-            _dbContext = dbContext;
         }
 
-        public void Add(T entity)
+        public virtual void Create<TEntity>(TEntity entity, string createdBy = null) where TEntity : class, IEntity
+        {
+            entity.CreatedDate = DateTime.UtcNow;
+            entity.CreatedBy = createdBy;
+            context.Set<TEntity>().Add(entity);
+        }
+
+        public virtual void Update<TEntity>(TEntity entity, string modifiedBy = null) where TEntity : class, IEntity
+        {
+            entity.ModifiedDate = DateTime.UtcNow;
+            entity.ModifiedBy = modifiedBy;
+            context.Set<TEntity>().Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public virtual void Delete<TEntity>(object id) where TEntity : class, IEntity
+        {
+            TEntity entity = context.Set<TEntity>().Find(id);
+            Delete(entity);
+        }
+
+        public virtual void Delete<TEntity>(TEntity entity) where TEntity : class, IEntity
+        {
+            var dbSet = context.Set<TEntity>();
+            if (context.Entry(entity).State == EntityState.Detached)
+            {
+                dbSet.Attach(entity);
+            }
+            dbSet.Remove(entity);
+        }
+
+        public virtual void Save()
+        {
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                ThrowEnhancedValidationException(e);
+            }
+        }
+
+        public virtual Task SaveAsync()
+        {
+            try
+            {
+                return context.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException e)
+            {
+                ThrowEnhancedValidationException(e);
+            }
+
+            return Task.FromResult(0);
+        }
+
+        protected virtual void ThrowEnhancedValidationException(DbEntityValidationException e)
+        {
+            var errorMessages = e.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+            var fullErrorMessage = string.Join("; ", errorMessages);
+            var exceptionMessage = string.Concat(e.Message, " The validation errors are: ", fullErrorMessage);
+            throw new DbEntityValidationException(exceptionMessage, e.EntityValidationErrors);
+        }
+
+        Task IRepository.SaveAsync()
         {
             throw new NotImplementedException();
-        }
-
-        public void Edit(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T GetById(int id)
-        {
-            return _dbContext.Set<T>().Find(id);
-        }
-
-        public IEnumerable<T> List()
-        {
-            return _dbContext.Set<T>().AsEnumerable();
-        }
-
-        public IEnumerable<T> List(Expression<Func<T, bool>> predicate)
-        {
-            return _dbContext.Set<T>()
-                   .Where(predicate)
-                   .AsEnumerable();
-        }
-
-        public void Insert(T entity)
-        {
-            _dbContext.Set<T>().Add(entity);
-            _dbContext.SaveChanges();
-        }
-
-        public void Update(T entity)
-        {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-        }
-
-        public void Delete(T entity)
-        {
-            _dbContext.Set<T>().Remove(entity);
-            _dbContext.SaveChanges();
         }
     }
 }

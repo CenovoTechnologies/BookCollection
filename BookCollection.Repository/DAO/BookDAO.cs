@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookCollection.Repository
+namespace BookCollection.Repository.DAO
 {
-    public partial class ApplicationDbContext : DbContext
+    public class BookDAO
     {
-        
     }
 }
