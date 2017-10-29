@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BookCollection.Repository
 {
-    public class Repository<TContext> : ReadOnlyRepository<TContext>, IRepository where TContext : DbContext
+    public class CollectionRepository<TContext> : ReadOnlyRepository<TContext>, IRepository where TContext : DbContext
     {
-        public Repository(TContext context) : base(context)
+        public CollectionRepository(TContext context) : base(context)
         {
         }
 

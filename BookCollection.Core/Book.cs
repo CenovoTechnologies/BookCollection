@@ -1,11 +1,10 @@
-﻿using BookCollection.Core.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
-    public class Book : Entity<Int32>
+    public class Book : Entity<int>
     {
 
         [Required]

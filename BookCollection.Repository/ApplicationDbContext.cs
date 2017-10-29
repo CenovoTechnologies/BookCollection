@@ -8,12 +8,12 @@ namespace BookCollection.Repository
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class ApplicationDbContext : DbContext
     {
-        DbSet<Book> Books { get; set; }
-        DbSet<Author> Authors { get; set; }
-        DbSet<User> Users { get; set; }
-        DbSet<BookFormat> BookFormats { get; set; }
-        DbSet<BookGenre> BookGenres { get; set; }
-        DbSet<Status> Statues { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<BookFormat> BookFormats { get; set; }
+        public DbSet<BookGenre> BookGenres { get; set; }
+        public DbSet<Status> Statues { get; set; }
 
         public ApplicationDbContext() : base()
         {
