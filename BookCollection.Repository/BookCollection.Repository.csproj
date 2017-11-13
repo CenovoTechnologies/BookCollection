@@ -54,9 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="DAO\AuthorDAO.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
     <Compile Include="DAO\BookDAO.cs" />
-    <Compile Include="DAO\TEntity.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Interfaces\IReadOnlyRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
