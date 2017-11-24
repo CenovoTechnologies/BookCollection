@@ -2,7 +2,7 @@
 
 namespace BookCollection.Repository.DAO
 {
-    public class BookDAO : BaseDAO
+    public class BookDao : BaseDAO
     {
         public void AddNewBook(Book book)
         {
