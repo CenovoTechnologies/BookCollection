@@ -14,9 +14,14 @@ namespace BookCollectionForms
 			InitializeComponent();
 		}
 
-	    private async void OnClick_AddBookBtn(object sender, EventArgs e)
+	    private async void OnClick_CreateAccountBtn(object sender, EventArgs e)
 	    {
-	        await Navigation.PushAsync(new AddEditBookPage());
+	        await Navigation.PushAsync(new CreateAccountPage());
         }
+
+	    private async void OnClick_LoginBtn(object sender, EventArgs e)
+	    {
+	        await Navigation.PushAsync(new LoginPage());
+	    }
     }
 }

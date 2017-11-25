@@ -13,8 +13,8 @@ namespace BookCollectionForms
 		{
 			InitializeComponent();
 
-			MainPage = new BookCollectionForms.MainPage();
-		}
+		    MainPage = new NavigationPage(new BookCollectionForms.MainPage());
+        }
 
 		protected override void OnStart ()
 		{

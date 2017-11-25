@@ -3,11 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:BookCollectionForms"
              x:Class="BookCollectionForms.MainPage">
+	<ContentPage.Content>
+		<Grid x:Name="mainGrid" RowSpacing="1" ColumnSpacing="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="16.66*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="25*" />
+				<ColumnDefinition Width="25*" />
+				<ColumnDefinition Width="25*" />
+				<ColumnDefinition Width="25*" />
+			</Grid.ColumnDefinitions>
 
-	<Label Text="Welcome to Book Repository" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+			<Label Text="Welcome to Book Repository"
+				Grid.Row="0"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				FontAttributes="Bold"
+				FontSize="24"
+				HorizontalOptions="Center"
+				VerticalOptions="Center" />
 
-    <Button Text="Add a Book"  Margin="5"  HorizontalOptions="Center" Clicked="OnClick_AddBookBtn"/>
+			<Button Text="Login"
+				Margin="5"
+				Grid.Row="2"
+				Grid.Column="1"
+				HorizontalOptions="FillAndExpand"
+				Clicked="OnClick_LoginBtn" />
 
+			<Button Text="Create a New Account"
+				Margin="5"
+				Grid.Row="2"
+				Grid.Column="2"
+				HorizontalOptions="FillAndExpand"
+				Clicked="OnClick_CreateAccountBtn" />
+		</Grid>
+	</ContentPage.Content>
 </ContentPage>
