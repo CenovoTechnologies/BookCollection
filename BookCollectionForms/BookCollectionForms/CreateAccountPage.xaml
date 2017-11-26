@@ -1,10 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="BookCollectionForms.CreateAccountPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
-        </StackLayout>
+		<Grid x:Name="mainGrid" RowSpacing="1" ColumnSpacing="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+				<RowDefinition Height="8.33*" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="16.66*" />
+				<ColumnDefinition Width="16.66*" />
+				<ColumnDefinition Width="16.66*" />
+				<ColumnDefinition Width="16.66*" />
+				<ColumnDefinition Width="16.66*" />
+				<ColumnDefinition Width="16.66*" />
+			</Grid.ColumnDefinitions>
+
+			<Label Text="Create a New Account"
+				Grid.Row="0"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				FontAttributes="Bold"
+				FontSize="20"
+				Margin="0"
+				HorizontalOptions="Center"
+				VerticalOptions="Center" />
+
+			<Entry Placeholder="First Name"
+				Margin="5"
+				Grid.Row="1"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<Entry Placeholder="Last Name"
+				Margin="5"
+				Grid.Row="2"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<Entry Placeholder="Email"
+				Margin="5"
+				Grid.Row="3"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<DatePicker Date="{x:Static sys:DateTime.Now}"
+				Margin="5"
+				Grid.Row="1"
+				Grid.Column="3"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center"
+				Format="yyyy-MM-dd" >
+				<DatePicker.MinimumDate>
+		            <sys:DateTime x:FactoryMethod="Parse">
+		               <x:Arguments>
+		                  <x:String>Jan 1 1900</x:String>
+		               </x:Arguments>
+		            </sys:DateTime>
+		         </DatePicker.MinimumDate>
+		         <DatePicker.MaximumDate>
+		            <sys:DateTime x:FactoryMethod="Parse">
+		               <x:Arguments>
+		                  <x:String>Dec 31 2050</x:String>
+		               </x:Arguments>
+		            </sys:DateTime>
+		         </DatePicker.MaximumDate>
+			</DatePicker>
+
+			<Picker x:Name="GenderPicker"
+				Margin="5"
+				Grid.Row="2"
+				Grid.Column="3"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" >
+				<Picker.Items>
+					<x:String>Select Gender</x:String>
+					<x:String>Male</x:String>
+					<x:String>Female</x:String>
+				</Picker.Items>
+				<Picker.SelectedIndex>
+					0
+				</Picker.SelectedIndex>
+			</Picker>
+
+			<Entry Placeholder="Username"
+				Margin="5"
+				Grid.Row="5"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<Entry Placeholder="Password"
+				IsPassword="true"
+				Margin="5"
+				Grid.Row="6"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<Entry Placeholder="Type Password Again"
+				IsPassword="true"
+				Margin="5"
+				Grid.Row="7"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center" />
+
+			<Button Text="Create a New Account"
+				Margin="0"
+				Grid.Row="9"
+				Grid.Column="1"
+				Grid.ColumnSpan="4"
+				HorizontalOptions="FillAndExpand"
+				Clicked="OnClick_CreateAccountBtn" />
+		</Grid>
     </ContentPage.Content>
 </ContentPage>

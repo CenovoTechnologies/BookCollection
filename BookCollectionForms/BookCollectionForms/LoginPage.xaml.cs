@@ -16,5 +16,10 @@ namespace BookCollectionForms
 		{
 			InitializeComponent ();
 		}
-	}
+
+	    private async void OnClick_LoginBtn(object sender, EventArgs e)
+	    {
+	        await Navigation.PushAsync(new WelcomePage());
+	    }
+    }
 }
