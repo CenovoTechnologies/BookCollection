@@ -10,16 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace BookCollectionForms
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddEditBookPage : ContentPage
+	public partial class CollectionPage : ContentPage
 	{
-		public AddEditBookPage ()
+		public CollectionPage ()
 		{
 			InitializeComponent ();
 		}
-
-	    private async void OnClick_SaveBookBtn(object sender, EventArgs e)
-	    {
-	        await Navigation.PushAsync(new CollectionPage());
-	    }
-    }
+	}
 }
