@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookCollection.Services
 {
-    public class BookExtensions
+    public class BookService
     {
     }
 }

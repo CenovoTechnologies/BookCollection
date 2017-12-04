@@ -164,10 +164,15 @@ namespace BookCollection.Repository
             return GetQueryable<TEntity>(filter).Any();
         }
 
+        public virtual bool Exists<TEntity>(TEntity entity) where TEntity : class, IEntity
+        {
+            return context.Set<TEntity>().Local.Any(e => e.Equals(entity));
+        }
+
         public virtual Task<bool> GetExistsAsync<TEntity>(Expression<Func<TEntity, bool>> filter = null)
             where TEntity : class, IEntity
         {
-            return GetQueryable<TEntity>(filter).AnyAsync();
+            return GetQueryable(filter).AnyAsync();
         }
     }
 }

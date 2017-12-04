@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BookCollection.Core;
 
 namespace BookCollection.Repository.Interfaces
 {
@@ -74,6 +75,9 @@ namespace BookCollection.Repository.Interfaces
             where TEntity : class, IEntity;
 
         bool GetExists<TEntity>(Expression<Func<TEntity, bool>> filter = null)
+            where TEntity : class, IEntity;
+
+        bool Exists<TEntity>(TEntity entity)
             where TEntity : class, IEntity;
 
         Task<bool> GetExistsAsync<TEntity>(Expression<Func<TEntity, bool>> filter = null)

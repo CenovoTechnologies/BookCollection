@@ -40,8 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookExtensions.cs" />
+    <Compile Include="AuthorService.cs" />
+    <Compile Include="BookService.cs" />
+    <Compile Include="Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BookCollection.Core\BookCollection.Core.csproj">
+      <Project>{11615E86-FF87-49CA-B7B9-B866CA4897C3}</Project>
+      <Name>BookCollection.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BookCollection.Repository\BookCollection.Repository.csproj">
+      <Project>{A8F1CA4A-1999-4032-91B8-AC518EF83F5E}</Project>
+      <Name>BookCollection.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,22 +15,19 @@ namespace BookCollection.Core
 
         public Book this[int index]
         {
-            get { return (Book)Collection[index]; }
-            set { Collection[index] = value; }
+            get => (Book)Collection[index];
+            set => Collection[index] = value;
         }
 
-        public int Count
-        {
-            get
-            {
-                return Collection.Count;
-            }
-        }
+        public int Count => Collection.Count;
 
-        public bool IsReadOnly { get { return false; } }
+        public bool IsReadOnly => false;
 
         public void Add(Book book)
         {
+            //check if author exists, if false add author
+            //save book asyncly
+            //add book to collection
             Collection.Add(book);
         }
 
@@ -46,7 +43,7 @@ namespace BookCollection.Core
 
         public void CopyTo(Book[] array, int arrayIndex)
         {
-            foreach (Book book in array)
+            foreach (var book in array)
             {
                 Collection.Add(book);
             }
@@ -54,7 +51,7 @@ namespace BookCollection.Core
 
         public IEnumerator<Book> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return Collection.GetEnumerator();
         }
 
         public bool Remove(Book book)
@@ -62,10 +59,9 @@ namespace BookCollection.Core
             return Collection.Remove(book);
         }
 
-        //TODO:
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new Enumerator(this);
+            return (IEnumerator)GetEnumerator();
         }
     }
 }
