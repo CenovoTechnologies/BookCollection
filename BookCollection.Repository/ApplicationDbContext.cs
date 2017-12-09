@@ -28,6 +28,7 @@ namespace BookCollection.Repository
         {
             base.OnModelCreating(modelBuilder);
             CreateBookAuthorRelationship(modelBuilder);
+            CreateBookCollectionRelationship(modelBuilder);
         }
 
         private void CreateBookAuthorRelationship(DbModelBuilder modelBuilder)

@@ -1,4 +1,6 @@
 ﻿using BookCollection.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookCollection.Repository.UnitofWork
 {
@@ -36,6 +38,32 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).Exists(book);
+            }
+        }
+
+        public Book RetrieveBookByBookId(int bookId)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).GetById<Book>(bookId);
+            }
+        }
+
+        public List<Book> RetrieveBooksByAuthorId(int authorId)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
+                return repo.GetAll<Book>().Where(x => x.Authors.FirstOrDefault().AuthorId == authorId).ToList();
+            }
+        }
+
+        public List<Book> RetrieveBooksByCollectionId(int collectionId)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
+                return repo.GetAll<Book>().Where(x => x.CollectionId == collectionId).ToList();
             }
         }
     }
