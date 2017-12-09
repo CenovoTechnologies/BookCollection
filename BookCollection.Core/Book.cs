@@ -12,7 +12,11 @@ namespace BookCollection.Core
 
         public string SubTitle { get; set; }
 
-        public IList<Author> Authors { get; set; }
+        public ICollection<Author> Authors { get; set; }
+
+        public int CollectionId { get; set; }
+
+        public BooksCollection Collection { get; set; }
 
         public string Isbn { get; set; }
 

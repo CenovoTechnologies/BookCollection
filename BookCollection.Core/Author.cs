@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
@@ -14,5 +15,7 @@ namespace BookCollection.Core
         public string SortName { get; set; }
 
         public string Pseudonym { get; set; }
+
+        public ICollection<Book> Books { get; set; }
     }
 }

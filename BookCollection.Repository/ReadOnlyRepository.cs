@@ -146,6 +146,12 @@ namespace BookCollection.Repository
             return context.Set<TEntity>().FindAsync(id);
         }
 
+        public virtual IEnumerable<TEntity> GetAllByForeignId<TEntity>(object id)
+            where TEntity : class, IEntity
+        {
+            return GetAll<TEntity>().Where(x => x.Id == id);
+        }
+
         public virtual int GetCount<TEntity>(Expression<Func<TEntity, bool>> filter = null)
             where TEntity : class, IEntity
         {
