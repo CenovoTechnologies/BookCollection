@@ -1,5 +1,5 @@
 ﻿
-namespace BookCollection.Services
+namespace BookCollection.Services.Service
 {
     public abstract class Service
     {

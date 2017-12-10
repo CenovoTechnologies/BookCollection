@@ -66,5 +66,23 @@ namespace BookCollection.Repository.UnitofWork
                 return repo.GetAll<Book>().Where(x => x.CollectionId == collectionId).ToList();
             }
         }
+
+        public List<Book> RetrieveBooksByGenre(BookGenre genre)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
+                return repo.GetAll<Book>().Where(x => x.Genre == genre).ToList();
+            }
+        }
+
+        public List<Book> RetrieveBooksByFormat(BookFormat format)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
+                return repo.GetAll<Book>().Where(x => x.Format == format).ToList();
+            }
+        }
     }
 }

@@ -1,12 +1,7 @@
 ﻿using BookCollection.Core;
 using BookCollection.Repository.UnitofWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BookCollection.Services
+namespace BookCollection.Services.Service
 {
     public class UserService : Service
     {

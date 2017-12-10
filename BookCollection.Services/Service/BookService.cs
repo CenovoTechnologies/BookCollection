@@ -2,7 +2,7 @@
 using BookCollection.Repository.UnitofWork;
 using System.Collections.Generic;
 
-namespace BookCollection.Services
+namespace BookCollection.Services.Service
 {
     public class BookService : Service
     {
@@ -14,6 +14,16 @@ namespace BookCollection.Services
         public List<Book> RetrieveBooksByAuthorId(int authorId)
         {
             return new BookUnitofWork().RetrieveBooksByAuthorId(authorId);
+        }
+
+        public List<Book> RetrieveBooksByGenre(BookGenre genre)
+        {
+            return new BookUnitofWork().RetrieveBooksByGenre(genre);
+        }
+
+        public List<Book> RetrieveBooksByFormat(BookFormat format)
+        {
+            return new BookUnitofWork().RetrieveBooksByFormat(format);
         }
 
         public Book RetrieveBookByAuthorId(int bookId)

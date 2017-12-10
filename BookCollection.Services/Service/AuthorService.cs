@@ -2,7 +2,7 @@
 using BookCollection.Core;
 using BookCollection.Repository.UnitofWork;
 
-namespace BookCollection.Services
+namespace BookCollection.Services.Service
 {
     public class AuthorService : Service
     {

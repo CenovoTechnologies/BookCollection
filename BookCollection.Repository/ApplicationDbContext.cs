@@ -22,6 +22,7 @@ namespace BookCollection.Repository
         public ApplicationDbContext(DbConnection existingConnection, bool contextOwnsConnection) 
             : base(existingConnection, contextOwnsConnection)
         {
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
