@@ -26,9 +26,19 @@ namespace BookCollection.Services
             return new BookUnitofWork().Exists(book);
         }
 
-        public void CreateNewBook(Book book)
+        public void CreateNewBookInCollection(Book book)
         {
             new BookUnitofWork().AddNewBook(book);
+        }
+
+        public void UpdateBookInCollection(Book book)
+        {
+            new BookUnitofWork().UpdateBook(book);
+        }
+
+        public void DeleteBookFromCollection(Book book)
+        {
+            new BookUnitofWork().DeleteBook(book);
         }
     }
 }
