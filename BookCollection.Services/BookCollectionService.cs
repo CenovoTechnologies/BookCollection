@@ -1,4 +1,5 @@
 ﻿using BookCollection.Core;
+using BookCollection.Repository.UnitofWork;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,46 +9,41 @@ using System.Threading.Tasks;
 
 namespace BookCollection.Services
 {
-    public class BookCollectionService : ICollection<Book>
+    public class BookCollectionService : Service
     {
-        public bool IsReadOnly => false;
 
-        public int Count => throw new NotImplementedException();
-
-        public void Add(Book book)
+        public void CreateNewCollection(BooksCollection collection)
         {
-            //check if author exists, if false add author
-            //add book to collection
+            new BookCollectionUnitOfWork().AddNewBookCollection(collection);
         }
 
-        public void Clear()
+        public void UpdateCollection(BooksCollection collection)
         {
+            new BookCollectionUnitOfWork().UpdateBookCollection(collection);
         }
 
-        public bool Contains(Book book)
+        public void DeleteCollection(BooksCollection collection)
         {
+            new BookCollectionUnitOfWork().DeleteBookCollection(collection);
         }
 
-        public void CopyTo(Book[] array, int arrayIndex)
+        public List<BooksCollection> RetrieveCollectionsByCollectionId(int collectionId)
         {
-            foreach (var book in array)
-            {
-            }
+            return new BookCollectionUnitOfWork().RetrieveBooksCollectionByUserId(collectionId);
         }
 
-        public IEnumerator<Book> GetEnumerator()
+        public List<BooksCollection> RetrieveCollectionsByUserId(int userId)
         {
-            return null;
+            return new BookCollectionUnitOfWork().RetrieveBooksCollectionByUserId(userId);
         }
 
-        public bool Remove(Book book)
+        public bool IsBookAlreadyInCollection(Book book)
         {
             return false;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public void RemoveBookFromCollection(Book book)
         {
-            return (IEnumerator)GetEnumerator();
         }
     }
 }

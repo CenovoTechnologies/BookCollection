@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
@@ -9,6 +10,8 @@ namespace BookCollection.Core
         public int UserId { get; set; }
 
         public string Username { get; set; }
+
+        public ICollection<BooksCollection> BookCollections { get; set; }
 
         private string Password { get; set; }
 

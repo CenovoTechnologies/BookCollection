@@ -13,7 +13,7 @@ namespace BookCollection.Repository
         public DbSet<User> Users { get; set; }
         public DbSet<BookFormat> BookFormats { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
-        public DbSet<Status> BookStatus { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
         public ApplicationDbContext() : base()
         {
@@ -29,6 +29,7 @@ namespace BookCollection.Repository
             base.OnModelCreating(modelBuilder);
             CreateBookAuthorRelationship(modelBuilder);
             CreateBookCollectionRelationship(modelBuilder);
+            CreateUserCollectionRelationship(modelBuilder);
         }
 
         private void CreateBookAuthorRelationship(DbModelBuilder modelBuilder)
@@ -50,6 +51,14 @@ namespace BookCollection.Repository
                 .HasRequired<BooksCollection>(x => x.Collection)
                 .WithMany(y => y.Collection)
                 .HasForeignKey(z => z.CollectionId);
+        }
+
+        private void CreateUserCollectionRelationship(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BooksCollection>()
+                .HasRequired<User>(x => x.User)
+                .WithMany(y => y.BookCollections)
+                .HasForeignKey(z => z.UserId);
         }
     }
 }
