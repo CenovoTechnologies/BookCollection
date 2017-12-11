@@ -1,0 +1,33 @@
+<!Doctype html>
+<html lang="en">
+<head>
+	<title>Book Collection</title>
+</head>
+<body>
+	<h1>Book Collection</h1>
+	<ul id='bookCollectionList'></ul>
+
+	<script>
+		const electron = require('electron');
+		const {ipcRenderer} = electron;
+		const collectionUl = document.querySelector('ul');
+
+		ipcRenderer.on('item:add', function(e, item) {
+			const li = document.createElement('li');
+			const itemText = document.createTextNode(item);
+			li.appendChild(itemText);
+			collectionUl.appendChild(li);
+		});
+
+		ipcRenderer.on('item:clear', function() {
+			collectionUl.innerHTML = '';
+		});
+
+		collectionUl.addEventListener('dblclick', removeItem);
+
+		function removeItem(e) {
+			e.target.remove();
+		}
+	</script>
+</body>
+</html>

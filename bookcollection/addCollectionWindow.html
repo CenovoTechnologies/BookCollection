@@ -1,0 +1,29 @@
+<!Doctype html>
+<html lang="en">
+<head>
+	<title>Add New Book Collection</title>
+</head>
+<body>
+	<form>
+		<div>
+			<label>Enter Collection Name</label>
+			<input type="text" id="collectionNameInput" autofocus>
+		</div>
+		<button type="submit">Add New Collection</button>
+	</form>
+
+	<script>
+		const electron = require('electron');
+		const {ipcRenderer} = electron;
+
+		const form = document.querySelector('form');
+		form.addEventListener('submit', submitForm);
+
+		function submitForm(e) {
+			e.preventDefault();
+			const item = document.querySelector('#collectionNameInput').value;
+			ipcRenderer.send('item:add', item);
+		}
+	</script>
+</body>
+</html>

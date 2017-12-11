@@ -1,0 +1,19 @@
+{
+  "name": "bookcollection",
+  "version": "1.0.0",
+  "description": "book collection desktop app",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "book",
+    "collection",
+    "software"
+  ],
+  "author": "Cenovo Technologies",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}
