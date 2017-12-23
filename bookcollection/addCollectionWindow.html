@@ -22,7 +22,7 @@
 		function submitForm(e) {
 			e.preventDefault();
 			const item = document.querySelector('#collectionNameInput').value;
-			ipcRenderer.send('item:add', item);
+			ipcRenderer.send('collection:add', item);
 		}
 	</script>
 </body>

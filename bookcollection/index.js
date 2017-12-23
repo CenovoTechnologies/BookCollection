@@ -42,8 +42,8 @@ function createAddWindow() {
 	});
 }
 
-ipcMain.on('item:add', function(e, item) {
-	mainWindow.webContents.send('item:add', item);
+ipcMain.on('collection:add', function(e, item) {
+	mainWindow.webContents.send('collection:add', item);
 	addCollectionWindow.close();
 });
 
@@ -58,10 +58,7 @@ const mainMenuTemplate = [
 				}
 			},
 			{
-				label: 'Remove Collection',
-				click(){
-					mainWindow.webContents.send('item:clear');
-				}
+				label: 'Open Collection'
 			},
 			{
 				label: 'Quit',
@@ -69,6 +66,20 @@ const mainMenuTemplate = [
 				click(){
 					app.quit();
 				}
+			}
+		]
+	},
+	{
+		label:'Edit',
+		submenu:[
+			{
+				label:'Add New Book'
+			},
+			{
+				label:'Edit Book',
+			},
+			{
+				label:'Remove Book(s)'
 			}
 		]
 	}
