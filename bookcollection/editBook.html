@@ -1,18 +1,70 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<title>Add New Book</title>
+	<title>Modify Book</title>
 </head>
 <body>
 	<form>
 		<div>
-			<label>Enter Collection Name</label>
-			<input type="text" id="collectionNameInput" autofocus>
+			<label>Title</label>
+			<input type="text" id="titleInput" autofocus required>
 		</div>
-		<button type="submit">Add New Book</button>
+		<div>
+			<label>Sub-Title</label>
+			<input type="text" id="subTitleInput">
+		</div>
+		<div>
+			<label>Author</label>
+			<input type="text" id="authorInput" required>
+		</div>
+		<div>
+			<label>Genre</label>
+			<input type="text" id="genreInput">
+		</div>
+		<div>
+			<label>ISBN</label>
+			<input type="text" id="isbnInput">
+		</div>
+		<div>
+			<label>Format</label>
+			<input type="text" id="formatInput">
+		</div>
+		<div>
+			<label>LoC Classification</label>
+			<input type="text" id="locInput">
+		</div>
+		<div>
+			<label>Number of Pages</label>
+			<input type="number" id="pagesInput">
+		</div>
+		<div>
+			<label>Dewey</label>
+			<input type="text" id="deweyInput">
+		</div>
+		<div>
+			<label>Publisher</label>
+			<input type="text" id="publisherInput">
+		</div>
+		<div>
+			<label>Date Published</label>
+			<input type="date" id="datePublishedInput">
+		</div>
+		<button type="submit">Save</button>
 	</form>
 
 	<script>
+        const electron = require('electron');
+		const {ipcRenderer} = electron;
+
+		const form = document.querySelector('form');
+		form.addEventListener('submit', submitForm);
+
+		function submitForm(e) {
+			e.preventDefault();
+			const title = document.querySelector('#titleInput').value;
+			const author = document.querySelector('#authorInput').value;
+			ipcRenderer.send('book:add', title, author);
+		}
 	</script>
 </body>
 </html>

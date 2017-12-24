@@ -1,26 +1,49 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<title>Add New Book</title>
+	<title>Create User Account</title>
 </head>
 <body>
 	<form>
         <div>
             <label>First Name</label>
-            <input type="text" id="firstNameInput" autofocus>
+            <input type="text" id="firstNameInput" autofocus required>
+        </div>
+        <div>
+            <label>Middle Initial Name</label>
+            <input type="text" id="middleInitialInput">
         </div>
         <div>
             <label>Last Name</label>
-            <input type="text" id="lastNameInput">
+            <input type="text" id="lastNameInput" required>
         </div>
 		<div>
-			<label>Username</label>
-			<input type="text" id="usernameInput" autofocus>
-		</div>
+			<label>Email</label>
+			<input type="email" id="emailInput" required>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" id="passwordInput" required>
+        </div>
+        <div>
+            <label>Repeat Password</label>
+            <input type="password" id="repeatPasswordInput" required>
+        </div>
 		<button type="submit">Create Account</button>
 	</form>
 
 	<script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+
+		const form = document.querySelector('form');
+		form.addEventListener('submit', submitForm);
+
+		function submitForm(e) {
+            e.preventDefault();
+            const email = document.querySelector('#emailInput').value;;
+			ipcRenderer.send('userAccount:add', email);
+		}
 	</script>
 </body>
 </html>

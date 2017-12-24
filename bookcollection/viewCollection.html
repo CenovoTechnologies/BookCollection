@@ -1,18 +1,39 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<title>Add New Book</title>
+	<title>Collection</title>
 </head>
 <body>
-	<form>
-		<div>
-			<label>Enter Collection Name</label>
-			<input type="text" id="collectionNameInput" autofocus>
-		</div>
-		<button type="submit">Add New Book</button>
-	</form>
+    <h3 id="collectionName"></h3>
+    <div>
+        <button type="button" id="addBookBtn">Add New Book</button>
+    </div>
+    <div id="bookList">
+    </div>
 
 	<script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        const collection = document.querySelector('#collectionName');
+        const addBookBtn = document.querySelector('#addBookBtn');
+        const bookList = document.querySelector('#bookList');
+
+        addBookBtn.addEventListener('click', createBook);
+
+        ipcRenderer.on('collection:open', function(e, collectionId) {
+            collection.appendChild(document.createTextNode(collectionId));
+        });
+
+        ipcRenderer.on('book:add', function(e, title, author) {
+            const bookItem = document.createTextNode(title + ' By: ' + author);
+            bookList.appendChild(bookItem);
+        });
+
+        function createBook(e) {
+            e.preventDefault();
+            ipcRenderer.send('addBookBtn:click');
+        }
+        
 	</script>
 </body>
 </html>

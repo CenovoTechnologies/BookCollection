@@ -4,29 +4,32 @@
 	<title>Book Collection</title>
 </head>
 <body>
-	<h1>Book Collection</h1>
-	<ul id='bookCollectionList'></ul>
+	<h1>Welcome</h1>
+	<div>
+		<button type="button" id="loginBtn">Login</button>
+	</div>
+	<div>
+		<button type="button" id="createAccountBtn">Create An Account</button>
+	</div>
 
 	<script>
 		const electron = require('electron');
 		const {ipcRenderer} = electron;
-		const collectionUl = document.querySelector('ul');
 
-		ipcRenderer.on('collection:add', function(e, item) {
-			const li = document.createElement('li');
-			const itemText = document.createTextNode(item);
-			li.appendChild(itemText);
-			collectionUl.appendChild(li);
-		});
+		const loginBtn = document.querySelector('#loginBtn');
+		loginBtn.addEventListener('click', createLogin);
 
-		ipcRenderer.on('item:clear', function() {
-			collectionUl.innerHTML = '';
-		});
+		const createAccountBtn = document.querySelector('#createAccountBtn');
+		createAccountBtn.addEventListener('click', createUser);
 
-		collectionUl.addEventListener('dblclick', removeItem);
+		function createLogin(e) {
+			e.preventDefault();
+			ipcRenderer.send('loginBtn:click');
+		}
 
-		function removeItem(e) {
-			e.target.remove();
+		function createUser(e) {
+			e.preventDefault();
+			ipcRenderer.send('createAccountBtn:click');
 		}
 	</script>
 </body>

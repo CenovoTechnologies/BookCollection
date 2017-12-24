@@ -1,18 +1,53 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<title>Add New Book</title>
+	<title>Homepage</title>
 </head>
 <body>
-	<form>
-		<div>
-			<label>Enter Collection Name</label>
-			<input type="text" id="collectionNameInput" autofocus>
-		</div>
-		<button type="submit">Add New Book</button>
-	</form>
+        <h4>Book Collections</h4>
+        <div>
+            <button type="button" id="addCollectionBtn">Add New Collection</button>
+        </div>
+        <div id='bookCollectionList'>
+        </div>
+    
+        <script>
+            const electron = require('electron');
+            const {ipcRenderer} = electron;
+            const collectionList = document.querySelector('#bookCollectionList');
+            const addCollectionBtn = document.querySelector('#addCollectionBtn');
 
-	<script>
-	</script>
+            addCollectionBtn.addEventListener('click', createCollection);
+    
+            ipcRenderer.on('collection:add', function(e, item) {
+                const btn = document.createElement('button');
+                const itemText = document.createTextNode(item);
+                btn.appendChild(itemText);
+                collectionList.appendChild(btn);
+            });
+    
+            collectionList.addEventListener('dblclick', removeCollection);
+
+            collectionList.addEventListener('click', openCollection);
+    
+            function removeCollection(e) {
+                e.target.remove();
+            }
+
+            function revealCollectionStatistics(e) {
+                //show off to the right-side collection stats
+            }
+
+            function createCollection(e) {
+                e.preventDefault();
+                ipcRenderer.send('addCollectionBtn:click');
+            }
+
+            function openCollection(e) {
+                e.preventDefault();
+                const collectionId = e.target.firstChild.nodeValue; //fix this later
+                ipcRenderer.send('collection:open', collectionId);
+            }
+        </script>
 </body>
 </html>
