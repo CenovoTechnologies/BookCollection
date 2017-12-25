@@ -1,11 +1,11 @@
 ﻿using System.Data.Entity;
+using System.Data.SQLite;
 using BookCollection.Core;
-using MySql.Data.Entity;
 using System.Data.Common;
 
 namespace BookCollection.Repository
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
+    [DbConfigurationType(typeof(SQLiteContext))]
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
@@ -17,6 +17,12 @@ namespace BookCollection.Repository
 
         public ApplicationDbContext() : base()
         {
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+        }
+
+        public ApplicationDbContext(string connectionString) : base(new SQLiteConnection() { ConnectionString = connectionString }, true)
+        {
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
 
         public ApplicationDbContext(DbConnection existingConnection, bool contextOwnsConnection) 
