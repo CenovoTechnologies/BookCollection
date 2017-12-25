@@ -8,8 +8,6 @@ namespace BookCollection.Core.Interfaces
 {
     public interface IEntity
     {
-        object Id { get; set; }
-        string Name { get; set; }
         DateTime CreatedDate { get; set; }
         DateTime? ModifiedDate { get; set; }
         string CreatedBy { get; set; }
@@ -19,6 +17,6 @@ namespace BookCollection.Core.Interfaces
 
     public interface IEntity<T> :IEntity
     {
-        new T Id { get; set; }
+        //new T Id { get; set; }
     }
 }

@@ -6,6 +6,8 @@ namespace BookCollection.Core
 {
     public class Book : Entity<int>
     {
+        [Key]
+        public int BookId { get; set; }
 
         [Required]
         public string Title { get; set; }

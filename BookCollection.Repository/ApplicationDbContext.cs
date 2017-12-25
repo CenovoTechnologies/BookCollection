@@ -34,6 +34,9 @@ namespace BookCollection.Repository
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("BookCollection");
+            modelBuilder.Entity<User>().HasKey(t => t.UserId);
+            modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
             CreateBookAuthorRelationship(modelBuilder);
             CreateBookCollectionRelationship(modelBuilder);
             CreateUserCollectionRelationship(modelBuilder);
