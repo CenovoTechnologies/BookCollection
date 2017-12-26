@@ -13,7 +13,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                RepositoryGetter.RetrieveCollectionRepository(DbContext).Create(collection);
+                DbContext.BookCollections.Add(collection);
                 Save();
             }
         }
@@ -27,12 +27,33 @@ namespace BookCollection.Repository.UnitofWork
             }
         }
 
-        public void DeleteBookCollection(BooksCollection collection)
+        public bool DeleteBookCollection(BooksCollection collection)
         {
             using (DbContext = new ApplicationDbContext())
             {
-                RepositoryGetter.RetrieveCollectionRepository(DbContext).Delete(collection);
+                var found = DbContext.BookCollections.Find(collection);
+                if (found == null)
+                {
+                    return false;
+                }
+                DbContext.BookCollections.Remove(collection);
                 Save();
+                return true;
+            }
+        }
+
+        public bool DeleteBookCollectionById(int collectionId)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                var found = DbContext.BookCollections.Find(collectionId);
+                if (found == null)
+                {
+                    return false;
+                }
+                DbContext.BookCollections.Remove(found);
+                Save();
+                return true;
             }
         }
 
@@ -40,7 +61,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).GetById<BooksCollection>(collectionId);
+                return DbContext.BookCollections.Find(collectionId);
             }
         }
 
@@ -49,6 +70,22 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).GetAll<BooksCollection>().Where(x => x.UserId == userId).ToList();
+            }
+        }
+
+        public bool CheckIfCollectionExists(int collectionId)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                return DbContext.BookCollections.Count(e => e.CollectionId == collectionId) > 0;
+            }
+        }
+
+        public bool CheckIfCollectionNameExists(int userId, string collectionName)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                return DbContext.BookCollections.Count(e => e.CollectionName.Equals(collectionName) && e.UserId == userId) > 0;
             }
         }
     }

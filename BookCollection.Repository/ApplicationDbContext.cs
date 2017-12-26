@@ -14,6 +14,7 @@ namespace BookCollection.Repository
         public DbSet<BookFormat> BookFormats { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<BooksCollection> BookCollections { get; set; }
 
         public ApplicationDbContext() : base()
         {

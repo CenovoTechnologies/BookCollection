@@ -20,5 +20,7 @@ namespace BookCollection.Service.Models
         }
 
         public System.Data.Entity.DbSet<BookCollection.Core.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<BookCollection.Core.BooksCollection> BooksCollections { get; set; }
     }
 }

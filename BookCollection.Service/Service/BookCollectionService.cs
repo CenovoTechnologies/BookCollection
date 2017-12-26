@@ -6,30 +6,46 @@ namespace BookCollection.Service.Service
 {
     public class BookCollectionService : Service
     {
+        private BookCollectionUnitOfWork work = new BookCollectionUnitOfWork();
 
         public void CreateNewCollection(BooksCollection collection)
         {
-            new BookCollectionUnitOfWork().AddNewBookCollection(collection);
+            work.AddNewBookCollection(collection);
         }
 
         public void UpdateCollection(BooksCollection collection)
         {
-            new BookCollectionUnitOfWork().UpdateBookCollection(collection);
+            work.UpdateBookCollection(collection);
         }
 
-        public void DeleteCollection(BooksCollection collection)
+        public bool DeleteCollection(BooksCollection collection)
         {
-            new BookCollectionUnitOfWork().DeleteBookCollection(collection);
+            return work.DeleteBookCollection(collection);
         }
 
-        public List<BooksCollection> RetrieveCollectionsByCollectionId(int collectionId)
+        public bool DeleteCollectionById(int collectionId)
         {
-            return new BookCollectionUnitOfWork().RetrieveBooksCollectionByUserId(collectionId);
+            return work.DeleteBookCollectionById(collectionId);
+        }
+
+        public BooksCollection RetrieveCollectionsByCollectionId(int collectionId)
+        {
+            return work.RetrieveBookCollectionByCollectionId(collectionId);
         }
 
         public List<BooksCollection> RetrieveCollectionsByUserId(int userId)
         {
-            return new BookCollectionUnitOfWork().RetrieveBooksCollectionByUserId(userId);
+            return work.RetrieveBooksCollectionByUserId(userId);
+        }
+
+        public bool CheckIfCollectionExists(int collectionId)
+        {
+            return work.CheckIfCollectionExists(collectionId);
+        }
+
+        public bool CheckIfCollectionNameExists(int userId, string collectionName)
+        {
+            return work.CheckIfCollectionNameExists(userId, collectionName);
         }
 
         public bool IsBookAlreadyInCollection(Book book)
