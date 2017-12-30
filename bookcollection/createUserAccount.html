@@ -10,7 +10,7 @@
             <input type="text" id="firstNameInput" autofocus required>
         </div>
         <div>
-            <label>Middle Initial Name</label>
+            <label>Middle Initial</label>
             <input type="text" id="middleInitialInput">
         </div>
         <div>
@@ -19,7 +19,7 @@
         </div>
 		<div>
 			<label>Email</label>
-			<input type="email" id="emailInput" required>
+			<input type="email" id="emailInput">
         </div>
         <div>
             <label>Password</label>
@@ -41,9 +41,51 @@
 
 		function submitForm(e) {
             e.preventDefault();
-            const email = document.querySelector('#emailInput').value;;
-			ipcRenderer.send('userAccount:add', email);
-		}
+            if (isFormValid()) {
+                sendToMain();
+            }
+        }
+
+        function isPasswordValid(e) {
+
+        }
+
+        function isFormValid() {
+            var isValid = true;
+            if (!doPasswordsMatch()) {
+                isValid = false;
+                document.querySelector('#passwordInput').value = '';
+                document.querySelector('#repeatPasswordInput').value = '';
+                alert("Passwords must match");
+            }
+            if (!isEmailValid(document.querySelector('#emailInput').value)) {
+                isValid = false;
+                alert("Valid email address is required");
+            }
+
+            return isValid;
+        }
+        
+        function doPasswordsMatch() {
+            const password = document.querySelector('#passwordInput').value;
+            const password2 = document.querySelector('#repeatPasswordInput').value;
+            return password == password2;
+        }
+
+        function isEmailValid(email) {
+            var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return regex.test(email);
+        }
+
+        function sendToMain() {
+            const firstName = document.querySelector('#firstNameInput').value;
+            const middleInitial = document.querySelector('#middleInitialInput').value;
+            const lastName = document.querySelector('#lastNameInput').value;
+            const email = document.querySelector('#emailInput').value;
+            const password = document.querySelector('#passwordInput').value;
+            const password2 = document.querySelector('#repeatPasswordInput').value;
+			ipcRenderer.send('userAccount:add', firstName, middleInitial, lastName, email, password);
+        }
 	</script>
 </body>
 </html>

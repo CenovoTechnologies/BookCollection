@@ -48,10 +48,11 @@ namespace BookCollection.Service.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-        // POST: api/Users
+        
+        [Route("api/Users/Register")]
+        [HttpPost]
         [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
+        public IHttpActionResult RegisterUser(User user)
         {
             if (!ModelState.IsValid)
             {
@@ -61,6 +62,13 @@ namespace BookCollection.Service.Controllers
             us.AddNewUser(user);
 
             return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
+        }
+
+        //POST: api/Users/Login
+        [ResponseType(typeof(User))]
+        public IHttpActionResult Login(User user)
+        {
+            return Ok(user);
         }
 
         // DELETE: api/Users/5

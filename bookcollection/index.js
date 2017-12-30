@@ -1,6 +1,7 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
+const controller = require('./controller');
 
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
@@ -119,7 +120,8 @@ ipcMain.on('collection:open', function(e, collectionId) {
 	});
 });
 
-ipcMain.on('userAccount:add', function(e, item) {
+ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, email, password) {
+	controller.createNewAccount(firstName, middleInitial, lastName, email, password);
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'homepage.html'),
 		protocol: 'file:',
