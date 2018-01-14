@@ -1,91 +1,63 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Web.Http;
-using System.Web.Http.Description;
+﻿using System.Web.Http;
 using BookCollection.Core;
 using BookCollection.Service.Service;
+using Newtonsoft.Json;
 
 namespace BookCollection.Service.Controllers
 {
+    [RoutePrefix("api/Users")]
     public class UsersController : ApiController
     {
         private UserService us = new UserService();
-
-        // GET: api/Users
-        public IEnumerable<User> GetUsers()
+        
+        [Route("Register")]
+        [HttpPost]
+        public IHttpActionResult RegisterUser(UserInfo userInfo)
         {
-            return us.GetAllUsers();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = new User()
+            {
+                FirstName = userInfo.FirstName,
+                MiddleInitial = userInfo.MiddleInitial,
+                LastName = userInfo.LastName,
+                Email = userInfo.Email
+            };
+
+            us.AddNewUser(user);
+
+            return Ok(JsonConvert.SerializeObject(user));
         }
 
-        // GET: api/Users/5
-        [ResponseType(typeof(User))]
-        public IHttpActionResult GetUser(int id)
+        [Route("Login")]
+        [HttpPost]
+        public IHttpActionResult Login(LoginInfo loginInfo)
         {
-            User user = us.GetUserById(id);
+            var user = us.GetUserByEmail(loginInfo.Email);
+
             if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(JsonConvert.SerializeObject(user));
         }
 
-        // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
+        public class UserInfo
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-
-            us.UpdateUser(user);
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-        
-        [Route("api/Users/Register")]
-        [HttpPost]
-        [ResponseType(typeof(User))]
-        public IHttpActionResult RegisterUser(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            us.AddNewUser(user);
-
-            return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
+            public string FirstName { get; set; }
+            public string MiddleInitial { get; set; }
+            public string LastName { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
         }
 
-        //POST: api/Users/Login
-        [ResponseType(typeof(User))]
-        public IHttpActionResult Login(User user)
+        public class LoginInfo
         {
-            return Ok(user);
-        }
-
-        // DELETE: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult DeleteUser(int id)
-        {
-            bool success = us.DeleteUserById(id);
-            if (success)
-            {
-                return Ok();
-            }
-            return NotFound();
-        }
-
-        private bool UserExists(int id)
-        {
-            return us.CheckIfUserExistsById(id);
+            public string Email { get; set; }
+            public string Password { get; set; }
         }
     }
 }

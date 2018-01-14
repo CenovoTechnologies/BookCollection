@@ -2,45 +2,43 @@
 using System.Data.SQLite;
 using BookCollection.Core;
 using System.Data.Common;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace BookCollection.Repository
 {
-    [DbConfigurationType(typeof(SQLiteContext))]
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<BookFormat> BookFormats { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<BooksCollection> BookCollections { get; set; }
 
-        public ApplicationDbContext() : base()
+        public ApplicationDbContext() 
+            : base(new SQLiteConnection()
+            {
+                ConnectionString = new SQLiteConnectionStringBuilder()
+                {
+                    DataSource = "C:\\Users\\melissaSusan\\Source\\Repos\\BookCollection\\BookCollection.db", ForeignKeys = true
+                }.ConnectionString
+            }, true)
         {
-            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
-        }
-
-        public ApplicationDbContext(string connectionString) : base(new SQLiteConnection() { ConnectionString = connectionString }, true)
-        {
-            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
-        }
-
-        public ApplicationDbContext(DbConnection existingConnection, bool contextOwnsConnection) 
-            : base(existingConnection, contextOwnsConnection)
-        {
-            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("BookCollection");
             modelBuilder.Entity<User>().HasKey(t => t.UserId);
-            modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
-            CreateBookAuthorRelationship(modelBuilder);
-            CreateBookCollectionRelationship(modelBuilder);
-            CreateUserCollectionRelationship(modelBuilder);
+
+            //modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
+            //CreateBookAuthorRelationship(modelBuilder);
+            //CreateBookCollectionRelationship(modelBuilder);
+            //CreateUserCollectionRelationship(modelBuilder);
         }
 
         private void CreateBookAuthorRelationship(DbModelBuilder modelBuilder)

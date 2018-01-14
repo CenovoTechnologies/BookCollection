@@ -4,6 +4,10 @@
 	<title>Homepage</title>
 </head>
 <body>
+        <div id="userInfo">
+            <div hidden id="userId"></div>
+            <h2 id="nameOfUser"></h2>
+        </div>
         <h4>Book Collections</h4>
         <div>
             <button type="button" id="addCollectionBtn">Add New Collection</button>
@@ -25,11 +29,28 @@
                 btn.appendChild(itemText);
                 collectionList.appendChild(btn);
             });
+
+            ipcRenderer.on('userAccount:add', function(e, userInfo) {
+                var json = JSON.parse(userInfo);
+                addUserInfoToScreen(json.UserId, json.FirstName, json.LastName);
+            });
+
+            ipcRenderer.on('userAccount:login', function(e, userInfo) {
+                var json = JSON.parse(userInfo);
+                addUserInfoToScreen(json.UserId, json.FirstName, json.LastName);
+            });
     
             collectionList.addEventListener('dblclick', removeCollection);
 
             collectionList.addEventListener('click', openCollection);
     
+            function addUserInfoToScreen(userInfo, firstName, lastName) {
+                const nameText = document.createTextNode(firstName + ' ' + lastName);
+                const id = document.createTextNode(userId);
+                document.querySelector('#userId').appendChild(id);
+                document.querySelector('#nameOfUser').appendChild(nameText);
+            }
+
             function removeCollection(e) {
                 e.target.remove();
             }

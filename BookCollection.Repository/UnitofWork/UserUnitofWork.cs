@@ -10,7 +10,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                DbContext.Users.Add(user);
+                DbContext.User.Add(user);
                 Save();
             }
         }
@@ -28,12 +28,12 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                var found = DbContext.Users.Find(user);
+                var found = DbContext.User.Find(user);
                 if (found == null)
                 {
                     return false;
                 }
-                DbContext.Users.Remove(found);
+                DbContext.User.Remove(found);
                 Save();
                 return true;
             }
@@ -43,12 +43,12 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                var found = DbContext.Users.Find(id);
+                var found = DbContext.User.Find(id);
                 if (found == null)
                 {
                     return false;
                 }
-                DbContext.Users.Remove(found);
+                DbContext.User.Remove(found);
                 Save();
                 return true;
             }
@@ -66,7 +66,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                return DbContext.Users.Count(e => e.UserId == id) > 0;
+                return DbContext.User.Count(e => e.UserId == id) > 0;
             }
         }
 
@@ -83,6 +83,14 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).GetById<User>(id);
+            }
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            using (DbContext = new ApplicationDbContext())
+            {
+                return RepositoryGetter.RetrieveReadOnlyRepository(DbContext).Get<User>(x => x.Email.Equals(email)).FirstOrDefault();
             }
         }
     }

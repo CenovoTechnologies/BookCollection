@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
-    public class User : Entity<Int32>
+    public class User
     {
-        [Key]
         public int UserId { get; set; }
 
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         public string FirstName { get; set; }
 
@@ -22,5 +20,9 @@ namespace BookCollection.Core
         private string Password { get; set; }
 
         private Guid LicenseKey { get; set; }
+
+        DateTime CreatedDate { get; set; }
+
+        DateTime UpdatedDate { get; set; }
     }
 }

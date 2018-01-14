@@ -19,6 +19,16 @@ namespace BookCollection.Service
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "RegisterUser",
+                routeTemplate: "api/{controller}/Register"
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "LoginUser",
+                routeTemplate: "api/{controller}/Login"
+            );
         }
     }
 }

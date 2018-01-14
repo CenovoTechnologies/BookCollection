@@ -16,13 +16,6 @@ namespace BookCollection.Core
         }
 
         [DataType(DataType.DateTime)]
-        public DateTime? ModifiedDate { get; set; }
-
-        public string CreatedBy { get; set; }
-
-        public string ModifiedBy { get; set; }
-
-        [Timestamp]
-        public byte[] Version { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

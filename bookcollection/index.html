@@ -16,11 +16,8 @@
 		const electron = require('electron');
 		const {ipcRenderer} = electron;
 
-		const loginBtn = document.querySelector('#loginBtn');
-		loginBtn.addEventListener('click', createLogin);
-
-		const createAccountBtn = document.querySelector('#createAccountBtn');
-		createAccountBtn.addEventListener('click', createUser);
+		document.querySelector('#loginBtn').addEventListener('click', createLogin);
+		document.querySelector('#createAccountBtn').addEventListener('click', createUser);
 
 		function createLogin(e) {
 			e.preventDefault();

@@ -83,7 +83,6 @@
             const lastName = document.querySelector('#lastNameInput').value;
             const email = document.querySelector('#emailInput').value;
             const password = document.querySelector('#passwordInput').value;
-            const password2 = document.querySelector('#repeatPasswordInput').value;
 			ipcRenderer.send('userAccount:add', firstName, middleInitial, lastName, email, password);
         }
 	</script>

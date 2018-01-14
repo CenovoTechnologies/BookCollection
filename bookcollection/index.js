@@ -121,21 +121,41 @@ ipcMain.on('collection:open', function(e, collectionId) {
 });
 
 ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, email, password) {
-	controller.createNewAccount(firstName, middleInitial, lastName, email, password);
-	mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'homepage.html'),
-		protocol: 'file:',
-		slashes: true
-	}));
+	var message = JSON.stringify({
+		'FirstName': firstName,
+		'LastName': lastName,
+		'MiddleInitial': middleInitial,
+		'Email': email,
+		'Password': password
+	});
+	controller.createNewAccount(message, function(responseBody) {
+		mainWindow.loadURL(url.format({
+			pathname: path.join(__dirname, 'homepage.html'),
+			protocol: 'file:',
+			slashes: true
+		}));
+		mainWindow.webContents.on('did-finish-load', function() {
+			mainWindow.webContents.send('userAccount:add', responseBody);
+		});
+	});
 	addUserWindow.close();
 });
 
 ipcMain.on('userAccount:login', function(e, email, password) {
-	mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'homepage.html'),
-		protocol: 'file:',
-		slashes: true
-	}));
+	var message = JSON.stringify({
+		'Email': email,
+		'Password': password
+	});
+	controller.loginAccount(message, function(responseBody) {
+		mainWindow.loadURL(url.format({
+			pathname: path.join(__dirname, 'homepage.html'),
+			protocol: 'file:',
+			slashes: true
+		}));
+		mainWindow.webContents.on('did-finish-load', function() {
+			mainWindow.webContents.send('userAccount:login', responseBody);
+		});
+	});
 	loginWindow.close();
 });
 

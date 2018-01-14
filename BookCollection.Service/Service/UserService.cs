@@ -1,5 +1,6 @@
 ﻿using BookCollection.Core;
 using BookCollection.Repository.UnitofWork;
+using System;
 using System.Collections.Generic;
 
 namespace BookCollection.Service.Service
@@ -46,6 +47,11 @@ namespace BookCollection.Service.Service
         public User GetUserById(int id)
         {
             return work.GetUser(id);
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return work.GetUserByEmail(email);
         }
     }
 }
