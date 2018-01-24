@@ -104,8 +104,16 @@ ipcMain.on('book:add', function(e, title, author) {
 	addBookWindow.close();
 })
 
-ipcMain.on('collection:add', function(e, item) {
-	mainWindow.webContents.send('collection:add', item);
+ipcMain.on('collection:add', function(e, collectionName, userId) {
+	console.log(userId + ', ' + collectionName);
+	var message = JSON.stringify({
+		"UserId": userId,
+		"CollectionName": collectionName
+	});
+	controller.addBookCollection(message, function(responseBody) {
+		console.log(responseBody);
+		mainWindow.webContents.send('collection:add', responseBody);
+	});
 	addCollectionWindow.close();
 });
 
@@ -159,6 +167,12 @@ ipcMain.on('userAccount:login', function(e, email, password) {
 	loginWindow.close();
 });
 
+ipcMain.on('user:getCollections', function(e, userId) {
+	controller.getBookCollectionsForUser(userId, function(responseBody) {
+		mainWindow.webContents.send('user:getCollections', responseBody);
+	});
+});
+
 ipcMain.on('loginBtn:click', function(e) {
 	createLoginWindow();
 });
@@ -167,12 +181,23 @@ ipcMain.on('createAccountBtn:click', function(e) {
 	createAddUserWindow();
 });
 
-ipcMain.on('addCollectionBtn:click', function(e) {
-	createCollectionWindow();
+ipcMain.on('addCollectionBtn:click', function(e, userId) {
+	createCollectionWindow();	
+	addCollectionWindow.webContents.on('did-finish-load', function() {
+		addCollectionWindow.webContents.send('collection:init', userId);
+	});
 });
 
 ipcMain.on('addBookBtn:click', function(e) {
 	createAddBookWindow();
+});
+
+ipcMain.on('homepage:return', function(e) {
+	mainWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'homepage.html'),
+		protocol: 'file:',
+		slashes: true
+	}));
 });
 
 const mainMenuTemplate = [

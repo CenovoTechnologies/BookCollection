@@ -1,18 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
-    public class Author : Person
+    public class Author
     {
-        [Key]
         public int AuthorId { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string MiddleInitial { get; set; }
+
+        public DateTime BirthDate { get; set; }
+
+        public DateTime DeathDate { get; set; }
+
+        public string BirthPlace { get; set; }
+
+        public string DeathPlace { get; set; }
 
         public string WikipediaLink { get; set; }
 
         public string WebsiteLink { get; set; }
-
-        public string SortName { get; set; }
 
         public string Pseudonym { get; set; }
 

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BookCollection.Core
 {
-    public class BooksCollection : Entity<int>
+    public class BooksCollection
     {
-        [Key]
         public int CollectionId { get; set; }
 
         public string CollectionName { get; set; }
@@ -14,7 +13,10 @@ namespace BookCollection.Core
 
         public int UserId { get; set; }
 
-        [Required]
         public User User { get; set; }
+
+        DateTime CreatedOn { get; set; }
+
+        DateTime UpdatedOn { get; set; }
     }
 }

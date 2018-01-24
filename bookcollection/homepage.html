@@ -23,10 +23,13 @@
 
             addCollectionBtn.addEventListener('click', createCollection);
     
-            ipcRenderer.on('collection:add', function(e, item) {
+            ipcRenderer.on('collection:add', function(e, collectionInfo) {
+                var json = JSON.parse(collectionInfo);
                 const btn = document.createElement('button');
-                const itemText = document.createTextNode(item);
+                const itemText = document.createTextNode(json.CollectionName);
+                const itemId = document.createTextNode(json.CollectionId);
                 btn.appendChild(itemText);
+                btn.id = itemId;
                 collectionList.appendChild(btn);
             });
 
@@ -38,17 +41,38 @@
             ipcRenderer.on('userAccount:login', function(e, userInfo) {
                 var json = JSON.parse(userInfo);
                 addUserInfoToScreen(json.UserId, json.FirstName, json.LastName);
+                getCollectionsForUsers(json.UserId);
+            });
+
+            ipcRenderer.on('user:getCollections', function(e, collectionInfo) {
+                console.log(collectionInfo);
+                for (j in collectionInfo) {
+                    appendCollectionToList(collectionInfo[j].CollectionId, collectionInfo[j].CollectionName);
+                }
             });
     
             collectionList.addEventListener('dblclick', removeCollection);
 
             collectionList.addEventListener('click', openCollection);
     
-            function addUserInfoToScreen(userInfo, firstName, lastName) {
+            function addUserInfoToScreen(userId, firstName, lastName) {
                 const nameText = document.createTextNode(firstName + ' ' + lastName);
                 const id = document.createTextNode(userId);
                 document.querySelector('#userId').appendChild(id);
                 document.querySelector('#nameOfUser').appendChild(nameText);
+            }
+
+            function getCollectionsForUsers(userId) {
+                ipcRenderer.send('user:getCollections', userId);
+            }
+
+            function appendCollectionToList(collectionId, collectionName) {
+                const btn = document.createElement('button');
+                const itemText = document.createTextNode(collectionName);
+                const itemId = document.createTextNode(collectionId);
+                btn.appendChild(itemText);
+                btn.id = itemId;
+                collectionList.appendChild(btn);
             }
 
             function removeCollection(e) {
@@ -61,7 +85,7 @@
 
             function createCollection(e) {
                 e.preventDefault();
-                ipcRenderer.send('addCollectionBtn:click');
+                ipcRenderer.send('addCollectionBtn:click', document.getElementById('userId').innerHTML);
             }
 
             function openCollection(e) {

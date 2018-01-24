@@ -1,9 +1,6 @@
 ﻿using BookCollection.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookCollection.Repository.UnitofWork
 {
@@ -13,7 +10,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                DbContext.BookCollections.Add(collection);
+                DbContext.BookCollection.Add(collection);
                 Save();
             }
         }
@@ -31,12 +28,12 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                var found = DbContext.BookCollections.Find(collection);
+                var found = DbContext.BookCollection.Find(collection);
                 if (found == null)
                 {
                     return false;
                 }
-                DbContext.BookCollections.Remove(collection);
+                DbContext.BookCollection.Remove(collection);
                 Save();
                 return true;
             }
@@ -46,12 +43,12 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                var found = DbContext.BookCollections.Find(collectionId);
+                var found = DbContext.BookCollection.Find(collectionId);
                 if (found == null)
                 {
                     return false;
                 }
-                DbContext.BookCollections.Remove(found);
+                DbContext.BookCollection.Remove(found);
                 Save();
                 return true;
             }
@@ -61,7 +58,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                return DbContext.BookCollections.Find(collectionId);
+                return DbContext.BookCollection.Find(collectionId);
             }
         }
 
@@ -77,7 +74,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                return DbContext.BookCollections.Count(e => e.CollectionId == collectionId) > 0;
+                return DbContext.BookCollection.Count(e => e.CollectionId == collectionId) > 0;
             }
         }
 
@@ -85,7 +82,7 @@ namespace BookCollection.Repository.UnitofWork
         {
             using (DbContext = new ApplicationDbContext())
             {
-                return DbContext.BookCollections.Count(e => e.CollectionName.Equals(collectionName) && e.UserId == userId) > 0;
+                return DbContext.BookCollection.Count(e => e.CollectionName.Equals(collectionName) && e.UserId == userId) > 0;
             }
         }
     }

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace BookCollection.Core
 {
-    public class Book : Entity<int>
+    public class Book
     {
-        [Key]
         public int BookId { get; set; }
 
-        [Required]
         public string Title { get; set; }
 
         public string SubTitle { get; set; }
@@ -37,6 +34,10 @@ namespace BookCollection.Core
         public DateTime PublisherDate { get; set; }
 
         public string Plot { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
 
     }
 }

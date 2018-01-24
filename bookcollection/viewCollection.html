@@ -6,6 +6,9 @@
 <body>
     <h3 id="collectionName"></h3>
     <div>
+        <button type="button" id="backBtn">Return to Homepage</button>
+    </div>
+    <div>
         <button type="button" id="addBookBtn">Add New Book</button>
     </div>
     <div id="bookList">
@@ -16,9 +19,11 @@
         const {ipcRenderer} = electron;
         const collection = document.querySelector('#collectionName');
         const addBookBtn = document.querySelector('#addBookBtn');
+        const backBtn = document.querySelector('#backBtn');
         const bookList = document.querySelector('#bookList');
 
         addBookBtn.addEventListener('click', createBook);
+        backBtn.addEventListener('click', returnToHomepage);
 
         ipcRenderer.on('collection:open', function(e, collectionId) {
             collection.appendChild(document.createTextNode(collectionId));
@@ -32,6 +37,11 @@
         function createBook(e) {
             e.preventDefault();
             ipcRenderer.send('addBookBtn:click');
+        }
+
+        function returnToHomepage(e) {
+            e.preventDefault();
+            ipcRenderer.send('homepage:return');
         }
         
 	</script>

@@ -14,7 +14,7 @@ namespace BookCollection.Repository
         public DbSet<BookFormat> BookFormats { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<BooksCollection> BookCollections { get; set; }
+        public DbSet<BooksCollection> BookCollection { get; set; }
 
         public ApplicationDbContext() 
             : base(new SQLiteConnection()
@@ -33,9 +33,17 @@ namespace BookCollection.Repository
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("BookCollection");
+
             modelBuilder.Entity<User>().HasKey(t => t.UserId);
 
-            //modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
+            modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
+
+            modelBuilder.Entity<BooksCollection>().ToTable("BookCollection");
+
+            modelBuilder.Entity<BooksCollection>()
+                .HasRequired(x => x.User)
+                .WithMany(y => y.BookCollections)
+                .HasForeignKey(z => z.UserId);
             //CreateBookAuthorRelationship(modelBuilder);
             //CreateBookCollectionRelationship(modelBuilder);
             //CreateUserCollectionRelationship(modelBuilder);
