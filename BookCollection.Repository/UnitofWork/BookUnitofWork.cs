@@ -72,7 +72,7 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.Genre == genre).ToList();
+                return repo.GetAll<Book>().Where(x => x.BookGenre == genre).ToList();
             }
         }
 
@@ -81,7 +81,7 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.Format == format).ToList();
+                return repo.GetAll<Book>().Where(x => x.BookFormat == format).ToList();
             }
         }
     }

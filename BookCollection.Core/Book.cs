@@ -19,9 +19,13 @@ namespace BookCollection.Core
 
         public string Isbn { get; set; }
 
-        public BookGenre Genre { get; set; }
+        public int BookGenreId { get; set; }
 
-        public BookFormat Format { get; set; }
+        public BookGenre BookGenre { get; set; }
+
+        public int BookFormatId { get; set; }
+
+        public BookFormat BookFormat { get; set; }
 
         public int? NumberOfPages { get; set; }
 

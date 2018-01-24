@@ -53,8 +53,6 @@
     <Compile Include="BookFormat.cs" />
     <Compile Include="BookGenre.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="Enums\BookFormat.cs" />
-    <Compile Include="Enums\BookGenre.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Enums\Subject.cs" />
     <Compile Include="Interfaces\ICollectible.cs" />

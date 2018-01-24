@@ -1,19 +1,17 @@
 ﻿using System.Data.Entity;
 using System.Data.SQLite;
 using BookCollection.Core;
-using System.Data.Common;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace BookCollection.Repository
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Book { get; set; }
+        public DbSet<Author> Author { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<BookFormat> BookFormats { get; set; }
-        public DbSet<BookGenre> BookGenres { get; set; }
-        public DbSet<Status> Statuses { get; set; }
+        public DbSet<BookFormat> BookFormat { get; set; }
+        public DbSet<BookGenre> BookGenre { get; set; }
         public DbSet<BooksCollection> BookCollection { get; set; }
 
         public ApplicationDbContext() 
@@ -44,15 +42,13 @@ namespace BookCollection.Repository
                 .HasRequired(x => x.User)
                 .WithMany(y => y.BookCollections)
                 .HasForeignKey(z => z.UserId);
-            //CreateBookAuthorRelationship(modelBuilder);
-            //CreateBookCollectionRelationship(modelBuilder);
-            //CreateUserCollectionRelationship(modelBuilder);
-        }
 
-        private void CreateBookAuthorRelationship(DbModelBuilder modelBuilder)
-        {
+            modelBuilder.Entity<BookGenre>().HasKey(t => t.BookGenreId);
+
+            modelBuilder.Entity<BookFormat>().HasKey(t => t.BookFormatId);
+
             modelBuilder.Entity<Book>()
-                .HasMany<Author>(x => x.Authors)
+                .HasMany(x => x.Authors)
                 .WithMany(y => y.Books)
                 .Map(xy =>
                 {
@@ -60,20 +56,24 @@ namespace BookCollection.Repository
                     xy.MapRightKey("AuthorRefId");
                     xy.ToTable("BookAuthor");
                 });
-        }
 
-        private void CreateBookCollectionRelationship(DbModelBuilder modelBuilder)
-        {
             modelBuilder.Entity<Book>()
-                .HasRequired<BooksCollection>(x => x.Collection)
+                .HasRequired(x => x.Collection)
                 .WithMany(y => y.Collection)
                 .HasForeignKey(z => z.CollectionId);
-        }
 
-        private void CreateUserCollectionRelationship(DbModelBuilder modelBuilder)
-        {
+            modelBuilder.Entity<Book>()
+                .HasRequired(x => x.BookFormat)
+                .WithMany(y => y.Books)
+                .HasForeignKey(z => z.BookFormatId);
+
+            modelBuilder.Entity<Book>()
+                .HasRequired(x => x.BookGenre)
+                .WithMany(y => y.Books)
+                .HasForeignKey(z => z.BookGenreId);
+
             modelBuilder.Entity<BooksCollection>()
-                .HasRequired<User>(x => x.User)
+                .HasRequired(x => x.User)
                 .WithMany(y => y.BookCollections)
                 .HasForeignKey(z => z.UserId);
         }
