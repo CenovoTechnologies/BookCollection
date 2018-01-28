@@ -107,5 +107,55 @@ module.exports = {
                 console.error(`problem with request: ${e.message}`);
             });
         });
+    },
+
+    getAllBookGenres: function (callback) {
+        let body = '';
+        const options = {
+            hostname: 'localhost',
+            port: 53656,
+            path: '/api/BookGenres',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        http.get(options, (res) => {
+            res.setEncoding('utf8')
+            res.on('data', (chunk) => {
+                body += chunk;
+            });
+            res.on('end', () => {
+                callback(JSON.parse(body));
+            });
+            res.on('error', (e) => {
+                console.error(`problem with request: ${e.message}`);
+            });
+        });
+    },
+
+    getAllBookFormats: function (callback) {
+        let body = '';
+        const options = {
+            hostname: 'localhost',
+            port: 53656,
+            path: '/api/BookFormats',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        http.get(options, (res) => {
+            res.setEncoding('utf8')
+            res.on('data', (chunk) => {
+                body += chunk;
+            });
+            res.on('end', () => {
+                callback(JSON.parse(body));
+            });
+            res.on('error', (e) => {
+                console.error(`problem with request: ${e.message}`);
+            });
+        });
     }
 }

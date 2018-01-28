@@ -4,6 +4,10 @@
 	<title>Collection</title>
 </head>
 <body>
+    <div id="usefulInfo">
+        <div hidden id="userId"></div>
+        <div hidden id="collectionId"></div>
+    </div>
     <h3 id="collectionName"></h3>
     <div>
         <button type="button" id="backBtn">Return to Homepage</button>
@@ -25,8 +29,10 @@
         addBookBtn.addEventListener('click', createBook);
         backBtn.addEventListener('click', returnToHomepage);
 
-        ipcRenderer.on('collection:open', function(e, collectionId) {
-            collection.appendChild(document.createTextNode(collectionId));
+        ipcRenderer.on('collection:open', function(e, collectionName, collectionId, userId) {
+            document.querySelector('#collectionName').innerHTML = collectionName;
+            document.querySelector('#collectionId').innerHTML = collectionId;
+            document.querySelector('#userId').innerHTML = userId;
         });
 
         ipcRenderer.on('book:add', function(e, title, author) {
@@ -36,7 +42,7 @@
 
         function createBook(e) {
             e.preventDefault();
-            ipcRenderer.send('addBookBtn:click');
+            ipcRenderer.send('addBookBtn:click', document.querySelector('#userId').innerHTML, document.querySelector('#collectionId').innerHTML);
         }
 
         function returnToHomepage(e) {

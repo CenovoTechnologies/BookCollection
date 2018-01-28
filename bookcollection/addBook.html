@@ -4,6 +4,10 @@
 		<title>Add New Book</title>
 	</head>
 	<body>
+		<div id="usefulInfo">
+			<div hidden id="userId"></div>
+			<div hidden id="collectionId"></div>
+		</div>
 		<form>
 			<div>
 				<label>Title</label>
@@ -23,18 +27,15 @@
 			</div>
 			<div>
 				<label>Genre</label>
-				<input list="bookGenres" id="bookGenreInput">
-				<datalist id="bookGenres">
-
-				</datalist>
+				<select id="bookGenres"></select>
 			</div>
 			<div>
 				<label>Format</label>
-				<input type="text" id="bookFormatInput">
+				<select id="bookFormats"></select>
 			</div>
 			<div>
 				<label>Number of Pages</label>
-				<input type="text" id="pagesInput">
+				<input type="number" id="pagesInput">
 			</div>
 			<div>
 				<label>LocClassification</label>
@@ -54,12 +55,64 @@
 			</div>
 			<div>
 				<label>Plot</label>
-				<textarea name="plot" id="plotInput" rows="5" cols="15"></textarea>>
+				<textarea name="plot" id="plotInput" rows="5" cols="15"></textarea>
 			</div>
-			<button type="submit">Add New Book</button>
+			<button type="submit" id="addBookBtn">Add New Book</button>
 		</form>
 
 		<script>
+			const electron = require('electron');
+			const {ipcRenderer} = electron;
+			const addBookBtn = document.querySelector('#addBookBtn');
+
+			addBookBtn.addEventListener('click', addBook);
+			
+			ipcRenderer.on('addBook:init', function(e, userId, collectionId) {
+				setUserId(userId);
+				setCollectionId(collectionId);
+				getBookGenres();
+				getBookFormats();
+			});
+			
+			ipcRenderer.on('bookFormat:getAll', function(e, formats) {
+				var options = '';
+				for (f in formats) {
+					options += '<option value='+formats[f].BookFormatId+'>'+formats[f].Format+'</option>';
+				}
+				document.getElementById('bookFormats').innerHTML = options;
+			});
+
+			ipcRenderer.on('bookGenre:getAll', function(e, genres) {
+				var options = '';
+				for (g in genres) {
+					options += '<option value='+genres[g].BookGenreId+'>'+genres[g].Genre+'</option>';
+				}
+				document.getElementById('bookGenres').innerHTML = options;
+			});
+
+			function setUserId(userId) {
+				document.querySelector('#userId').innerHTML = userId;
+			}
+
+			function setCollectionId(collectionId) {
+				document.querySelector('#collectionId').innerHTML = collectionId;
+			}
+
+			function getBookGenres() {
+				ipcRenderer.send('bookGenre:getAll');
+			}
+
+			function getBookFormats() {
+				ipcRenderer.send('bookFormat:getAll');
+			}
+
+			function addBook(e) {
+				e.preventDefault();
+				const userId = document.querySelector('#userId').innerHTML;
+				const collectionId = document.querySelector('#collectionId').innerHTML;
+
+				ipcRenderer.send('book:add', userId, collectionId);
+			}
 		</script>
 	</body>
 </html>

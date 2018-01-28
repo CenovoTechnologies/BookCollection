@@ -89,7 +89,7 @@ function createAddBookWindow() {
 	});
 
 	addBookWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'editBook.html'),
+		pathname: path.join(__dirname, 'addBook.html'),
 		protocol: 'file:',
 		slashes: true
 	}));
@@ -105,26 +105,24 @@ ipcMain.on('book:add', function(e, title, author) {
 })
 
 ipcMain.on('collection:add', function(e, collectionName, userId) {
-	console.log(userId + ', ' + collectionName);
 	var message = JSON.stringify({
 		"UserId": userId,
 		"CollectionName": collectionName
 	});
 	controller.addBookCollection(message, function(responseBody) {
-		console.log(responseBody);
 		mainWindow.webContents.send('collection:add', responseBody);
 	});
 	addCollectionWindow.close();
 });
 
-ipcMain.on('collection:open', function(e, collectionId) {
+ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) {
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'viewCollection.html'),
 		protocol: 'file:',
 		slashes: true
 	}));
 	mainWindow.webContents.on('did-finish-load', function() {
-		mainWindow.webContents.send('collection:open', collectionId);
+		mainWindow.webContents.send('collection:open', collectionName, collectionId, userId);
 	});
 });
 
@@ -188,8 +186,11 @@ ipcMain.on('addCollectionBtn:click', function(e, userId) {
 	});
 });
 
-ipcMain.on('addBookBtn:click', function(e) {
+ipcMain.on('addBookBtn:click', function(e, userId, collectionId) {
 	createAddBookWindow();
+	addBookWindow.webContents.on('did-finish-load', function() {
+		addBookWindow.webContents.send('addBook:init', userId, collectionId);
+	});
 });
 
 ipcMain.on('homepage:return', function(e) {
@@ -198,6 +199,18 @@ ipcMain.on('homepage:return', function(e) {
 		protocol: 'file:',
 		slashes: true
 	}));
+});
+
+ipcMain.on('bookGenre:getAll', function(e) {
+	controller.getAllBookGenres(function(responseBody) {
+		addBookWindow.webContents.send('bookGenre:getAll', responseBody);
+	});
+});
+
+ipcMain.on('bookFormat:getAll', function(e) {
+	controller.getAllBookFormats(function(responseBody) {
+		addBookWindow.webContents.send('bookFormat:getAll', responseBody);
+	});
 });
 
 const mainMenuTemplate = [

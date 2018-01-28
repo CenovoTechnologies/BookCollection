@@ -45,7 +45,6 @@
             });
 
             ipcRenderer.on('user:getCollections', function(e, collectionInfo) {
-                console.log(collectionInfo);
                 for (j in collectionInfo) {
                     appendCollectionToList(collectionInfo[j].CollectionId, collectionInfo[j].CollectionName);
                 }
@@ -71,7 +70,7 @@
                 const itemText = document.createTextNode(collectionName);
                 const itemId = document.createTextNode(collectionId);
                 btn.appendChild(itemText);
-                btn.id = itemId;
+                btn.id = collectionId;
                 collectionList.appendChild(btn);
             }
 
@@ -90,8 +89,10 @@
 
             function openCollection(e) {
                 e.preventDefault();
-                const collectionId = e.target.firstChild.nodeValue; //fix this later
-                ipcRenderer.send('collection:open', collectionId);
+                const collectionName = e.target.firstChild.nodeValue;
+                const collectionId = e.target.id;
+                const userId = document.getElementById('userId').innerHTML;
+                ipcRenderer.send('collection:open', collectionName, collectionId, userId);
             }
         </script>
 </body>
