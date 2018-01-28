@@ -11,7 +11,7 @@ namespace BookCollection.Core
 
         public string SubTitle { get; set; }
 
-        public ICollection<Author> Authors { get; set; }
+        public ICollection<Author> Authors { get; set; } //TODO: make sure many-to-many relationship is correctly defined
 
         public int CollectionId { get; set; }
 

@@ -1,11 +1,14 @@
 ﻿using BookCollection.Core;
+using SQLite.CodeFirst;
 using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace BookCollection.Repository
 {
-    public class BookCollectionDBInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
+    public class BookCollectionDBInitializer : SqliteCreateDatabaseIfNotExists<ApplicationDbContext>
     {
+        public BookCollectionDBInitializer(DbModelBuilder modelBuilder) : base(modelBuilder) { }
+        
         protected override void Seed(ApplicationDbContext context)
         {
             context.BookGenre.AddRange(GetDataToSeedBookGenre());

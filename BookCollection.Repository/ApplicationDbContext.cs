@@ -22,12 +22,11 @@ namespace BookCollection.Repository
                     DataSource = "C:\\Users\\melissaSusan\\Source\\Repos\\BookCollection\\BookCollection.db", ForeignKeys = true
                 }.ConnectionString
             }, true)
-        {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
-        }
+        { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer(new BookCollectionDBInitializer(modelBuilder));
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("BookCollection");
