@@ -1,4 +1,5 @@
 ﻿using BookCollection.Core;
+using BookCollection.Repository;
 using BookCollection.Repository.UnitofWork;
 using System.Collections.Generic;
 
@@ -6,44 +7,58 @@ namespace BookCollection.Service.Service
 {
     public class BookService : Service
     {
-        public List<Book> RetrieveBooksByCollectionId(int collectionId)
+        private ApplicationDbContext db;
+
+        public IList<Book> RetrieveBooksByCollectionId(int collectionId)
         {
             return new BookUnitofWork().RetrieveBooksByCollectionId(collectionId);
         }
 
-        public List<Book> RetrieveBooksByAuthorId(int authorId)
+        public IList<Book> RetrieveBooksByAuthorId(int authorId)
         {
             return new BookUnitofWork().RetrieveBooksByAuthorId(authorId);
         }
 
-        public List<Book> RetrieveBooksByGenre(BookGenre genre)
+        public IList<Book> RetrieveBooksByGenre(BookGenre genre)
         {
             return new BookUnitofWork().RetrieveBooksByGenre(genre);
         }
 
-        public List<Book> RetrieveBooksByFormat(BookFormat format)
+        public IList<Book> RetrieveBooksByFormat(BookFormat format)
         {
             return new BookUnitofWork().RetrieveBooksByFormat(format);
         }
 
-        public Book RetrieveBookByAuthorId(int bookId)
+        public Book RetrieveBookByBookId(int bookId)
         {
-            return new BookUnitofWork().RetrieveBookByBookId(bookId);
+            using (db = new ApplicationDbContext())
+            {
+                return db.Book.Find(bookId);
+            }
         }
 
-        public bool CheckIfBookExists(Book book)
+        public bool CheckIfBookExists(int bookId)
         {
-            return new BookUnitofWork().Exists(book);
+            using (db = new ApplicationDbContext())
+            {
+                if (db.Book.Find(bookId) != null)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
 
-        public void CreateNewBookInCollection(Book book)
+        public bool CreateNewBookInCollection(Book book)
         {
             new BookUnitofWork().AddNewBook(book);
+            return true;
         }
 
-        public void UpdateBookInCollection(Book book)
+        public bool UpdateBookInCollection(Book book)
         {
             new BookUnitofWork().UpdateBook(book);
+            return true;
         }
 
         public void DeleteBookFromCollection(Book book)

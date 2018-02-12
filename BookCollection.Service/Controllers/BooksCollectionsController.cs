@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BookCollection.Core;
@@ -50,25 +49,6 @@ namespace BookCollection.Service.Controllers
             }
 
             return Ok(booksCollection);
-        }
-
-        // PUT: api/BooksCollections/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutBooksCollection(int id, BooksCollection booksCollection)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != booksCollection.CollectionId)
-            {
-                return BadRequest();
-            }
-
-            bs.UpdateCollection(booksCollection);
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/BooksCollections
