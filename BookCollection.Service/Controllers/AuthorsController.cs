@@ -18,6 +18,7 @@ namespace BookCollection.Service.Controllers
         }
         
         [HttpGet]
+        [Route("Get")]
         public IHttpActionResult GetAuthorById(int id)
         {
             Author author = authorService.RetrieveAuthorByAuthorId(id);
@@ -37,6 +38,7 @@ namespace BookCollection.Service.Controllers
         }
         
         [HttpPost]
+        [Route("Create")]
         public IHttpActionResult PostAuthor(Author author)
         {
             if (!ModelState.IsValid)

@@ -19,12 +19,12 @@ namespace BookCollection.Service.Service
             return new BookUnitofWork().RetrieveBooksByAuthorId(authorId);
         }
 
-        public IList<Book> RetrieveBooksByGenre(BookGenre genre)
+        public IList<Book> RetrieveBooksByGenre(int genre)
         {
             return new BookUnitofWork().RetrieveBooksByGenre(genre);
         }
 
-        public IList<Book> RetrieveBooksByFormat(BookFormat format)
+        public IList<Book> RetrieveBooksByFormat(int format)
         {
             return new BookUnitofWork().RetrieveBooksByFormat(format);
         }

@@ -29,6 +29,11 @@ namespace BookCollection.Service
                 name: "LoginUser",
                 routeTemplate: "api/{controller}/Login"
             );
+
+            config.Routes.MapHttpRoute(
+                name: "GetAll",
+                routeTemplate: "api/{controller}/All/{id}"
+            );
         }
     }
 }

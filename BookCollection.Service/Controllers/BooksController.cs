@@ -9,6 +9,7 @@ namespace BookCollection.Service.Controllers
     public class BooksController : ApiController
     {
         private BookService bookService = new BookService();
+        private AuthorService authorService = new AuthorService();
 
         [HttpGet]
         [Route("All")]
@@ -18,6 +19,7 @@ namespace BookCollection.Service.Controllers
         }
 
         [HttpGet]
+        [Route("Get")]
         public IHttpActionResult GetBookByBookId(int id)
         {
             Book book = bookService.RetrieveBookByBookId(id);
@@ -30,18 +32,21 @@ namespace BookCollection.Service.Controllers
         }
 
         [HttpPost]
+        [Route("Create")]
         public IHttpActionResult PostBook(Book book)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            
             if (BookExists(book.BookId))
             {
-                return Ok(bookService.UpdateBookInCollection(book));
+                bookService.UpdateBookInCollection(book);
+                return Ok();
             }
-            return Ok(bookService.CreateNewBookInCollection(book));
+            bookService.CreateNewBookInCollection(book);
+            return Ok();
         }
 
         private bool BookExists(int id)

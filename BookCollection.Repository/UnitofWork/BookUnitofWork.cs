@@ -63,25 +63,25 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.CollectionId == collectionId).ToList();
+                return repo.GetAll<Book>(x => x.CollectionId == collectionId).ToList();
             }
         }
 
-        public List<Book> RetrieveBooksByGenre(BookGenre genre)
+        public List<Book> RetrieveBooksByGenre(int genre)
         {
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.BookGenre == genre).ToList();
+                return repo.GetAll<Book>(x => x.BookGenreId == genre).ToList();
             }
         }
 
-        public List<Book> RetrieveBooksByFormat(BookFormat format)
+        public List<Book> RetrieveBooksByFormat(int format)
         {
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.BookFormat == format).ToList();
+                return repo.GetAll<Book>(x => x.BookFormatId == format).ToList();
             }
         }
     }

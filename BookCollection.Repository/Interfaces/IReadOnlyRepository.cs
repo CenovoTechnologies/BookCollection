@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -9,14 +8,14 @@ namespace BookCollection.Repository.Interfaces
     public interface IReadOnlyRepository
     {
         IEnumerable<TEntity> GetAll<TEntity>(
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Expression<Func<TEntity, bool>> filter = null,
             string includeProperties = null,
             int? skip = null,
             int? take = null)
             where TEntity : class;
 
         Task<IEnumerable<TEntity>> GetAllAsync<TEntity>(
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Expression<Func<TEntity, bool>> filter = null,
             string includeProperties = null,
             int? skip = null,
             int? take = null)
@@ -24,7 +23,6 @@ namespace BookCollection.Repository.Interfaces
 
         IEnumerable<TEntity> Get<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = null,
             int? skip = null,
             int? take = null)
@@ -32,7 +30,6 @@ namespace BookCollection.Repository.Interfaces
 
         Task<IEnumerable<TEntity>> GetAsync<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = null,
             int? skip = null,
             int? take = null)
@@ -50,13 +47,11 @@ namespace BookCollection.Repository.Interfaces
 
         TEntity GetFirst<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = null)
             where TEntity : class;
 
         Task<TEntity> GetFirstAsync<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = null)
             where TEntity : class;
 
