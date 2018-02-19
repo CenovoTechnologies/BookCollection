@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Newtonsoft.Json;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -13,6 +10,9 @@ namespace BookCollection.Service
     {
         protected void Application_Start()
         {
+            var jsonMediaTypeFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            jsonMediaTypeFormatter.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.All;
+            jsonMediaTypeFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

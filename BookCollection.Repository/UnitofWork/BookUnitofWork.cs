@@ -54,7 +54,7 @@ namespace BookCollection.Repository.UnitofWork
             using (DbContext = new ApplicationDbContext())
             {
                 var repo = RepositoryGetter.RetrieveReadOnlyRepository(DbContext);
-                return repo.GetAll<Book>().Where(x => x.Authors.FirstOrDefault().AuthorId == authorId).ToList();
+                return repo.GetAll<Book>(x => x.Authors.FirstOrDefault().AuthorId == authorId).ToList();
             }
         }
 
