@@ -1,28 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using BookCollection.Core;
-using BookCollection.Service.Service;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/Book")]
-    public class BooksController : ApiController
+    [Route("api/Book")]
+    public class BooksController : Controller
     {
-        private BookService bookService = new BookService();
-        private AuthorService authorService = new AuthorService();
+        private readonly IBookService _bookService;
+
+        public BooksController(IBookService bookService)
+        {
+            _bookService = bookService;
+        }
 
         [HttpGet]
         [Route("All")]
         public IList<Book> GetAllBooksInCollection(int collectionId)
         {
-            return bookService.RetrieveBooksByCollectionId(collectionId);
+            return _bookService.RetrieveBooksByCollectionId(collectionId);
         }
 
         [HttpGet]
         [Route("Get")]
-        public IHttpActionResult GetBookByBookId(int id)
+        public IActionResult GetBookByBookId(int id)
         {
-            Book book = bookService.RetrieveBookByBookId(id);
+            Book book = _bookService.RetrieveBookByBookId(id);
             if (book == null)
             {
                 return NotFound();
@@ -33,7 +37,7 @@ namespace BookCollection.Service.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IHttpActionResult PostBook(Book book)
+        public IActionResult PostBook(Book book)
         {
             if (!ModelState.IsValid)
             {
@@ -42,16 +46,16 @@ namespace BookCollection.Service.Controllers
             
             if (BookExists(book.BookId))
             {
-                bookService.UpdateBookInCollection(book);
+                _bookService.UpdateBookInCollection(book);
                 return Ok();
             }
-            bookService.CreateNewBookInCollection(book);
+            _bookService.CreateNewBookInCollection(book);
             return Ok();
         }
 
         private bool BookExists(int id)
         {
-            return bookService.CheckIfBookExists(id);
+            return _bookService.CheckIfBookExists(id);
         }
     }
 }

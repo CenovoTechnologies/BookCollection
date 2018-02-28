@@ -1,48 +1,47 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Http.Description;
 using BookCollection.Core;
-using BookCollection.Service.Service;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/BookCollection")]
-    public class BooksCollectionsController : ApiController
+    [Route("api/BookCollection")]
+    public class BooksCollectionsController : Controller
     {
-        private BookCollectionService bs = new BookCollectionService();
+        private readonly IBookCollectionService _bookCollectionService;
+
+        public BooksCollectionsController(IBookCollectionService bookCollectionService)
+        {
+            _bookCollectionService = bookCollectionService;
+        }
 
         [Route("Create")]
         [HttpPost]
-        public IHttpActionResult CreateBookCollection(CollectionInfo collectionInfo)
+        public IActionResult CreateBookCollection(CollectionInfo collectionInfo)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var collection = new BooksCollection()
             {
                 UserId = collectionInfo.UserId,
                 CollectionName = collectionInfo.CollectionName
             };
 
-            bs.CreateNewCollection(collection);
+            _bookCollectionService.CreateNewCollection(collection);
 
             return Ok(JsonConvert.SerializeObject(collection));
         }
-        
+
         [Route("Collections")]
         [HttpGet]
-        public IList<BooksCollection> GetBooksCollectionsForUser([FromUri] int userId)
+        public IList<BooksCollection> GetBooksCollectionsForUser([FromHeader] int userId)
         {
-            return bs.RetrieveCollectionsByUserId(userId);
+            return _bookCollectionService.RetrieveCollectionsByUserId(userId);
         }
 
         // GET: api/BooksCollections/5
-        [ResponseType(typeof(BooksCollection))]
-        public IHttpActionResult GetBooksCollection(int id)
+        public IActionResult GetBooksCollection(int id)
         {
-            BooksCollection booksCollection = bs.RetrieveCollectionsByCollectionId(id);
+            BooksCollection booksCollection = _bookCollectionService.RetrieveCollectionsByCollectionId(id);
             if (booksCollection == null)
             {
                 return NotFound();
@@ -52,35 +51,28 @@ namespace BookCollection.Service.Controllers
         }
 
         // POST: api/BooksCollections
-        [ResponseType(typeof(BooksCollection))]
-        public IHttpActionResult PostBooksCollection(BooksCollection booksCollection)
+        public IActionResult PostBooksCollection(BooksCollection booksCollection)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            bs.CreateNewCollection(booksCollection);
+            _bookCollectionService.CreateNewCollection(booksCollection);
 
             return CreatedAtRoute("DefaultApi", new { id = booksCollection.CollectionId }, booksCollection);
         }
 
         // DELETE: api/BooksCollections/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult DeleteBooksCollection(int id)
+        public IActionResult DeleteBooksCollection(int id)
         {
-            bool success = bs.DeleteCollectionById(id);
-            if (success)
-            {
-                return Ok();
-            }
-
-            return NotFound();
+            _bookCollectionService.DeleteCollectionById(id);
+            return Ok();
         }
 
         private bool BooksCollectionExists(int id)
         {
-            return bs.CheckIfCollectionExists(id);
+            return _bookCollectionService.CheckIfCollectionExists(id);
         }
 
         public class CollectionInfo

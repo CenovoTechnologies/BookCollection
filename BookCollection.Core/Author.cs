@@ -27,6 +27,10 @@ namespace BookCollection.Core
 
         public string Pseudonym { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; }
+
+        public int BookCollectionId { get; set; }
+
+        public BooksCollection BooksCollection { get; set; }
     }
 }

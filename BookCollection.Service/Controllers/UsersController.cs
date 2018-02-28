@@ -1,18 +1,23 @@
-﻿using System.Web.Http;
-using BookCollection.Core;
-using BookCollection.Service.Service;
+﻿using BookCollection.Core;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/Users")]
-    public class UsersController : ApiController
+    [Route("api/Users")]
+    public class UsersController : Controller
     {
-        private UserService us = new UserService();
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
         
         [Route("Register")]
         [HttpPost]
-        public IHttpActionResult RegisterUser(UserInfo userInfo)
+        public IActionResult RegisterUser(UserInfo userInfo)
         {
             if (!ModelState.IsValid)
             {
@@ -26,16 +31,16 @@ namespace BookCollection.Service.Controllers
                 Email = userInfo.Email
             };
 
-            us.AddNewUser(user);
+            _userService.AddNewUser(user);
 
             return Ok(JsonConvert.SerializeObject(user));
         }
 
         [Route("Login")]
         [HttpPost]
-        public IHttpActionResult Login(LoginInfo loginInfo)
+        public IActionResult Login(LoginInfo loginInfo)
         {
-            var user = us.GetUserByEmail(loginInfo.Email);
+            var user = _userService.GetUserByEmail(loginInfo.Email);
 
             if (user == null)
             {

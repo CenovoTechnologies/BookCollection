@@ -1,7 +1,5 @@
-﻿using System.Data.Entity;
-using System.Data.SQLite;
-using BookCollection.Core;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using BookCollection.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookCollection.Repository
 {
@@ -14,20 +12,8 @@ namespace BookCollection.Repository
         public DbSet<BookGenre> BookGenre { get; set; }
         public DbSet<BooksCollection> BookCollection { get; set; }
 
-        public ApplicationDbContext() 
-            : base(new SQLiteConnection()
-            {
-                ConnectionString = new SQLiteConnectionStringBuilder()
-                {
-                    DataSource = "C:\\Users\\melissaSusan\\Source\\Repos\\BookCollection\\BookCollection.db", ForeignKeys = true
-                }.ConnectionString
-            }, true)
-        { }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new BookCollectionDBInitializer(modelBuilder));
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("BookCollection");
 
@@ -38,7 +24,7 @@ namespace BookCollection.Repository
             modelBuilder.Entity<BooksCollection>().ToTable("BookCollection");
 
             modelBuilder.Entity<BooksCollection>()
-                .HasRequired(x => x.User)
+                .HasOne(x => x.User)
                 .WithMany(y => y.BookCollections)
                 .HasForeignKey(z => z.UserId);
 
@@ -46,33 +32,41 @@ namespace BookCollection.Repository
 
             modelBuilder.Entity<BookFormat>().HasKey(t => t.BookFormatId);
 
-            modelBuilder.Entity<Book>()
-                .HasMany(x => x.Authors)
-                .WithMany(y => y.Books)
-                .Map(xy =>
-                {
-                    xy.MapLeftKey("BookRefId");
-                    xy.MapRightKey("AuthorRefId");
-                    xy.ToTable("BookAuthor");
-                });
+            modelBuilder.Entity<BookAuthor>()
+                .HasKey(bc => new { bc.BookId, bc.AuthorId });
+
+            modelBuilder.Entity<BookAuthor>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.BookAuthors)
+                .HasForeignKey(bc => bc.BookId);
+
+            modelBuilder.Entity<BookAuthor>()
+                .HasOne(bc => bc.Author)
+                .WithMany(c => c.BookAuthors)
+                .HasForeignKey(bc => bc.AuthorId);
+
+            modelBuilder.Entity<Author>()
+                .HasOne(a => a.BooksCollection)
+                .WithMany(b => b.Authors)
+                .HasForeignKey(c => c.BookCollectionId);
 
             modelBuilder.Entity<Book>()
-                .HasRequired(x => x.Collection)
-                .WithMany(y => y.Collection)
+                .HasOne(x => x.Collection)
+                .WithMany(y => y.Books)
                 .HasForeignKey(z => z.CollectionId);
 
             modelBuilder.Entity<Book>()
-                .HasRequired(x => x.BookFormat)
+                .HasOne(x => x.BookFormat)
                 .WithMany(y => y.Books)
                 .HasForeignKey(z => z.BookFormatId);
 
             modelBuilder.Entity<Book>()
-                .HasRequired(x => x.BookGenre)
+                .HasOne(x => x.BookGenre)
                 .WithMany(y => y.Books)
                 .HasForeignKey(z => z.BookGenreId);
 
             modelBuilder.Entity<BooksCollection>()
-                .HasRequired(x => x.User)
+                .HasOne(x => x.User)
                 .WithMany(y => y.BookCollections)
                 .HasForeignKey(z => z.UserId);
         }

@@ -1,25 +1,31 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
+using System.Linq;
 using BookCollection.Core;
-using BookCollection.Service.Service;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/BookGenres")]
-    public class BookGenresController : ApiController
+    [Route("api/BookGenres")]
+    public class BookGenresController : Controller
     {
-        private BookGenreService bgs = new BookGenreService();
+        private readonly IBookGenreService _bookGenreService;
+
+        public BookGenresController(IBookGenreService bookGenreService)
+        {
+            _bookGenreService = bookGenreService;
+        }
         
         [HttpGet]
         public IList<BookGenre> GetBookGenre()
         {
-            return bgs.GetAllBookGenres();
+            return _bookGenreService.GetAllBookGenres().ToList();
         }
         
         [HttpGet]
-        public IHttpActionResult GetBookGenre(int id)
+        public IActionResult GetBookGenre(int id)
         {
-            BookGenre bookGenre = bgs.GetBookGenreById(id);
+            BookGenre bookGenre = _bookGenreService.GetBookGenreById(id);
             if (bookGenre == null)
             {
                 return NotFound();

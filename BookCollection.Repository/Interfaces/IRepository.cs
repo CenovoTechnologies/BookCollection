@@ -1,9 +1,8 @@
-﻿using BookCollection.Core.Interfaces;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace BookCollection.Repository.Interfaces
 {
-    public interface IRepository : IReadOnlyRepository
+    public interface IRepository
     {
         void Create<TEntity>(TEntity entity, string createdBy = null) where TEntity : class;
 

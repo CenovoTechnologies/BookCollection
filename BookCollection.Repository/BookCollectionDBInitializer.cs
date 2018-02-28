@@ -1,22 +1,27 @@
 ﻿using BookCollection.Core;
-using SQLite.CodeFirst;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace BookCollection.Repository
 {
-    public class BookCollectionDBInitializer : SqliteCreateDatabaseIfNotExists<ApplicationDbContext>
+    public class BookCollectionDBInitializer
     {
-        public BookCollectionDBInitializer(DbModelBuilder modelBuilder) : base(modelBuilder) { }
-        
-        protected override void Seed(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+
+        public BookCollectionDBInitializer(ApplicationDbContext context)
         {
-            context.BookGenre.AddRange(GetDataToSeedBookGenre());
-            context.BookFormat.AddRange(GetDataToSeedBookFormat());
-            base.Seed(context);
+            _context = context;
+        }
+        
+        protected async Task SeedAsync()
+        {
+            _context.BookGenre.AddRange(GetDataToSeedBookGenre());
+            await _context.SaveChangesAsync();
+            _context.BookFormat.AddRange(GetDataToSeedBookFormat());
+            await _context.SaveChangesAsync();
         }
 
-        public IList<BookGenre> GetDataToSeedBookGenre()
+        private IList<BookGenre> GetDataToSeedBookGenre()
         {
             return new List<BookGenre>
             {
@@ -69,7 +74,7 @@ namespace BookCollection.Repository
             };
         }
 
-        public IList<BookFormat> GetDataToSeedBookFormat()
+        private IList<BookFormat> GetDataToSeedBookFormat()
         {
             return new List<BookFormat>()
             {

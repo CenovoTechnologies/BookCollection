@@ -1,27 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using BookCollection.Core;
-using BookCollection.Service.Service;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/Author")]
-    public class AuthorsController : ApiController
+    [Route("api/Author")]
+    public class AuthorsController : Controller
     {
-        private AuthorService authorService = new AuthorService();
+        private readonly IAuthorService _authorService;
+
+        public AuthorsController(IAuthorService authorService)
+        {
+            _authorService = authorService;
+        }
         
         [HttpGet]
         [Route("All")]
         public IList<Author> GetAllAuthorsInCollection(int collectionId)
         {
-            return authorService.RetrieveAuthorsByCollectionId(collectionId);
+            return _authorService.RetrieveAuthorsByCollectionId(collectionId);
         }
         
         [HttpGet]
         [Route("Get")]
-        public IHttpActionResult GetAuthorById(int id)
+        public IActionResult GetAuthorById(int id)
         {
-            Author author = authorService.RetrieveAuthorByAuthorId(id);
+            Author author = _authorService.RetrieveAuthorByAuthorId(id);
             if (author == null)
             {
                 return NotFound();
@@ -34,12 +39,12 @@ namespace BookCollection.Service.Controllers
         [Route("Book")]
         public IList<Author> GetAllAuthorsForBook(int bookId)
         {
-            return authorService.RetrieveAuthorsByBookId(bookId);
+            return _authorService.RetrieveAuthorsByBookId(bookId);
         }
         
         [HttpPost]
         [Route("Create")]
-        public IHttpActionResult PostAuthor(Author author)
+        public IActionResult PostAuthor(Author author)
         {
             if (!ModelState.IsValid)
             {
@@ -48,14 +53,16 @@ namespace BookCollection.Service.Controllers
 
             if (AuthorExists(author.AuthorId))
             {
-                return Ok(authorService.UpdateAuthor(author));
+                _authorService.UpdateAuthor(author);
+                return Ok();
             }
-            return Ok(authorService.CreateNewAuthor(author));
+            _authorService.CreateNewAuthor(author);
+            return Ok();
         }
 
         private bool AuthorExists(int id)
         {
-            return authorService.CheckIfAuthorExists(id);
+            return _authorService.CheckIfAuthorExists(id);
         }
     }
 }

@@ -1,25 +1,31 @@
-﻿using System.Web.Http;
-using BookCollection.Core;
-using BookCollection.Service.Service;
+﻿using BookCollection.Core;
 using System.Collections.Generic;
+using System.Linq;
+using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookCollection.Service.Controllers
 {
-    [RoutePrefix("api/BookFormats")]
-    public class BookFormatsController : ApiController
+    [Route("api/BookFormats")]
+    public class BookFormatsController : Controller
     {
-        private BookFormatService bfs = new BookFormatService();
+        private readonly IBookFormatService _bookFormatService;
+
+        public BookFormatsController(IBookFormatService bookFormatService)
+        {
+            _bookFormatService = bookFormatService;
+        }
         
         [HttpGet]
         public IList<BookFormat> GetBookFormat()
         {
-            return bfs.GetAllBookFormats();
+            return _bookFormatService.GetAllBookFormats().ToList();
         }
 
         [HttpGet]
-        public IHttpActionResult GetBookFormat(int id)
+        public IActionResult GetBookFormat(int id)
         {
-            BookFormat bookFormat = bfs.GetBookFormatById(id);
+            BookFormat bookFormat = _bookFormatService.GetBookFormatById(id);
             if (bookFormat == null)
             {
                 return NotFound();
