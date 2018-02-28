@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookCollection.Core.Interfaces;
 using BookCollection.Repository;
+using BookCollection.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-namespace BookCollection.Service.NetCore
+namespace BookCollection.Service
 {
     public class Startup
     {
@@ -28,6 +24,14 @@ namespace BookCollection.Service.NetCore
             services.AddMvc();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
+            services.AddTransient<IReadOnlyRepository, ReadOnlyRepository>();
+            services.AddTransient<IRepository, CollectionRepository>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IBookCollectionService, BookCollectionService>();
+            services.AddTransient<IBookFormatService, BookFormatService>();
+            services.AddTransient<IBookGenreService, BookGenreService>();
+            services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

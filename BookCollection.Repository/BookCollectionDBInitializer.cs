@@ -1,27 +1,32 @@
-﻿using BookCollection.Core;
+﻿using System;
+using BookCollection.Core;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookCollection.Repository
 {
-    public class BookCollectionDBInitializer
+    public static class BookCollectionDbInitializer
     {
-        private readonly ApplicationDbContext _context;
-
-        public BookCollectionDBInitializer(ApplicationDbContext context)
+        public static void SeedData(IServiceProvider serviceProvider)
         {
-            _context = context;
-        }
-        
-        protected async Task SeedAsync()
-        {
-            _context.BookGenre.AddRange(GetDataToSeedBookGenre());
-            await _context.SaveChangesAsync();
-            _context.BookFormat.AddRange(GetDataToSeedBookFormat());
-            await _context.SaveChangesAsync();
+            using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            {
+                if (!context.BookGenre.Any())
+                {
+                    context.BookGenre.AddRange(GetDataToSeedBookGenre());
+                    context.SaveChanges();
+                }
+                if (!context.BookFormat.Any())
+                {
+                    context.BookFormat.AddRange(GetDataToSeedBookFormat());
+                    context.SaveChanges();
+                }
+            }
         }
 
-        private IList<BookGenre> GetDataToSeedBookGenre()
+        private static IList<BookGenre> GetDataToSeedBookGenre()
         {
             return new List<BookGenre>
             {
@@ -74,7 +79,7 @@ namespace BookCollection.Repository
             };
         }
 
-        private IList<BookFormat> GetDataToSeedBookFormat()
+        private static IList<BookFormat> GetDataToSeedBookFormat()
         {
             return new List<BookFormat>()
             {

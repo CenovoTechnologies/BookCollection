@@ -23,6 +23,7 @@ namespace BookCollection.Service.Controllers
         }
 
         [HttpGet]
+        [Route("All")]
         public IActionResult GetBookFormat(int id)
         {
             BookFormat bookFormat = _bookFormatService.GetBookFormatById(id);
