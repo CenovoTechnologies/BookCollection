@@ -1,32 +1,42 @@
-﻿using System;
-using BookCollection.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BookCollection.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BookCollection.Repository
+namespace BookCollection.Repository.DatabaseInitializer
 {
-    public static class BookCollectionDbInitializer
+    public static class DbContextStartupExtensions
     {
-        public static void SeedData(IServiceProvider serviceProvider)
+        public static void EnsureSeedData(this ApplicationDbContext context)
         {
-            using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            if (!context.BookGenre.Any())
             {
-                if (!context.BookGenre.Any())
-                {
-                    context.BookGenre.AddRange(GetDataToSeedBookGenre());
-                    context.SaveChanges();
-                }
-                if (!context.BookFormat.Any())
-                {
-                    context.BookFormat.AddRange(GetDataToSeedBookFormat());
-                    context.SaveChanges();
-                }
+                context.BookGenre.AddRange(GetDataToSeedBookGenre());
+                context.SaveChanges();
+            }
+            if (!context.BookFormat.Any())
+            {
+                context.BookFormat.AddRange(GetDataToSeedBookFormat());
+                context.SaveChanges();
             }
         }
 
-        private static IList<BookGenre> GetDataToSeedBookGenre()
+        public static bool AllMigrationsApplied(this DbContext context)
+        {
+            var applied = context.GetService<IHistoryRepository>()
+                .GetAppliedMigrations()
+                .Select(m => m.MigrationId);
+
+            var total = context.GetService<IMigrationsAssembly>()
+                .Migrations
+                .Select(m => m.Key);
+
+            return !total.Except(applied).Any();
+        }
+
+        private static IEnumerable<BookGenre> GetDataToSeedBookGenre()
         {
             return new List<BookGenre>
             {
@@ -79,7 +89,7 @@ namespace BookCollection.Repository
             };
         }
 
-        private static IList<BookFormat> GetDataToSeedBookFormat()
+        private static IEnumerable<BookFormat> GetDataToSeedBookFormat()
         {
             return new List<BookFormat>()
             {

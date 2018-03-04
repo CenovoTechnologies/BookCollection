@@ -1,5 +1,6 @@
 ﻿using BookCollection.Core.Interfaces;
 using BookCollection.Repository;
+using BookCollection.Repository.DatabaseInitializer;
 using BookCollection.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,9 +22,10 @@ namespace BookCollection.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
+            services.AddMvc();
             services.AddTransient<IReadOnlyRepository, ReadOnlyRepository>();
             services.AddTransient<IRepository, CollectionRepository>();
             services.AddTransient<IAuthorService, AuthorService>();
@@ -40,6 +42,15 @@ namespace BookCollection.Service
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                if (!serviceScope.ServiceProvider.GetService<ApplicationDbContext>().AllMigrationsApplied())
+                {
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().EnsureSeedData();
+                }
             }
 
             app.UseMvc();
