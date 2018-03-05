@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BookCollection.Core
 {
@@ -15,5 +16,9 @@ namespace BookCollection.Core
         public int UserId { get; set; }
 
         public User User { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BookCollection.Core;
+﻿using System;
+using BookCollection.Core;
 using BookCollection.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,27 @@ namespace BookCollection.Repository
 
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<User>().HasKey(t => t.UserId);
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.Email)
+                    .HasMaxLength(200)
+                    .IsRequired());
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.FirstName)
+                    .HasMaxLength(50)
+                    .IsRequired());
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.LastName)
+                    .HasMaxLength(50)
+                    .IsRequired());
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.MiddleInitial)
+                    .HasMaxLength(10));
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.CreatedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
+            modelBuilder.Entity<User>(entity =>
+                entity.Property(x => x.ModifiedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
 
             modelBuilder.Entity<BookGenre>().ToTable("BookGenre");
             modelBuilder.Entity<BookGenre>().HasKey(t => t.BookGenreId);
@@ -48,6 +70,38 @@ namespace BookCollection.Repository
                 .HasOne(a => a.BooksCollection)
                 .WithMany(b => b.Authors)
                 .HasForeignKey(c => c.BookCollectionId);
+            modelBuilder.Entity<Author>(entity => 
+                entity.Property(x => x.FirstName)
+                    .HasMaxLength(100)
+                    .IsRequired());
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.LastName)
+                    .HasMaxLength(100)
+                    .IsRequired());
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.MiddleInitial)
+                    .HasMaxLength(10));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.BirthPlace)
+                    .HasMaxLength(150));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.DeathPlace)
+                    .HasMaxLength(150));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.WikipediaLink)
+                    .HasMaxLength(150));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.WebsiteLink)
+                    .HasMaxLength(150));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.Pseudonym)
+                    .HasMaxLength(100));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.CreatedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
+            modelBuilder.Entity<Author>(entity =>
+                entity.Property(x => x.ModifiedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
 
             modelBuilder.Entity<Book>().ToTable("Book");
             modelBuilder.Entity<Book>().HasKey(x => x.BookId);
@@ -63,6 +117,37 @@ namespace BookCollection.Repository
                 .HasOne(x => x.BookGenre)
                 .WithMany(y => y.Books)
                 .HasForeignKey(z => z.BookGenreId);
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.Title)
+                    .HasMaxLength(200)
+                    .IsRequired());
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.SubTitle)
+                    .HasMaxLength(200));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.Isbn)
+                    .HasMaxLength(100));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.NumberOfPages)
+                    .HasMaxLength(10));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.LocClassification)
+                    .HasMaxLength(100));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.Dewey)
+                    .HasMaxLength(100));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.Publisher)
+                    .HasMaxLength(150));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.Plot)
+                    .HasMaxLength(400));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.CreatedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
+            modelBuilder.Entity<Book>(entity =>
+                entity.Property(x => x.ModifiedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
 
             modelBuilder.Entity<BooksCollection>().ToTable("BookCollection");
             modelBuilder.Entity<BooksCollection>().HasKey(t => t.CollectionId);
@@ -74,6 +159,16 @@ namespace BookCollection.Repository
                 .HasOne(x => x.User)
                 .WithMany(y => y.BookCollections)
                 .HasForeignKey(z => z.UserId);
+            modelBuilder.Entity<BooksCollection>(entity =>
+                entity.Property(x => x.CollectionName)
+                    .HasMaxLength(100)
+                    .IsRequired());
+            modelBuilder.Entity<BooksCollection>(entity =>
+                entity.Property(x => x.CreatedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
+            modelBuilder.Entity<BooksCollection>(entity =>
+                entity.Property(x => x.ModifiedDate)
+                    .HasDefaultValue(DateTime.UtcNow));
         }
     }
 }

@@ -32,5 +32,9 @@ namespace BookCollection.Core
         public int BookCollectionId { get; set; }
 
         public BooksCollection BooksCollection { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BookCollection.Core;
 using BookCollection.Core.Interfaces;
 using BookCollection.Repository.Interfaces;
@@ -23,20 +24,22 @@ namespace BookCollection.Service
 
         public void AddNewUser(User user)
         {
+            user.CreatedDate = DateTime.UtcNow;
+            user.ModifiedDate = DateTime.UtcNow;
             _repository.Create(user);
-            _repository.SaveAsync();
+            _repository.Save();
         }
 
         public void UpdateUser(User user)
         {
             _repository.Update(user);
-            _repository.SaveAsync();
+            _repository.Save();
         }
 
         public bool DeleteUser(User user)
         {
             _repository.Delete(user);
-            _repository.SaveAsync();
+            _repository.Save();
             return true;
         }
 

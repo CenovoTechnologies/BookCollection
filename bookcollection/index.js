@@ -128,11 +128,11 @@ ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) 
 
 ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, email, password) {
 	var message = JSON.stringify({
-		'FirstName': firstName,
-		'LastName': lastName,
-		'MiddleInitial': middleInitial,
-		'Email': email,
-		'Password': password
+		"FirstName": firstName,
+		"LastName": lastName,
+		"MiddleInitial": middleInitial,
+		"Email": email,
+		"Password": password
 	});
 	controller.createNewAccount(message, function(responseBody) {
 		mainWindow.loadURL(url.format({
@@ -140,6 +140,7 @@ ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, em
 			protocol: 'file:',
 			slashes: true
 		}));
+		console.log(responseBody);
 		mainWindow.webContents.on('did-finish-load', function() {
 			mainWindow.webContents.send('userAccount:add', responseBody);
 		});

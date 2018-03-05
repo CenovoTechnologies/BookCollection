@@ -1,161 +1,104 @@
 const url = require('url');
 const path = require('path');
-const http = require('http');
+const request = require('request');
 
 module.exports = {
     createNewAccount: function(message, callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/Users/Register',
+        request({
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/Users/Register',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.parse(message),
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        const req = http.request(options, (res) => {
-            res.setEncoding('utf8');
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
         });
-    
-        req.on('error', (e) => {
-            console.error(`problem with request: ${e.message}`);
-        });
-        req.end(message);
     },
 
     loginAccount: function(message, callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/Users/Login',
+        request({
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/Users/Login',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.parse(message),
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        const req = http.request(options, (res) => {
-            res.setEncoding('utf8')
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
         });
-    
-        req.on('error', (e) => {
-            console.error(`problem with request: ${e.message}`);
-        });
-        req.end(message);
     },
 
     addBookCollection: function(message, callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/BookCollection/Create',
+        request({
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/BookCollection/Create',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.parse(message),
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        const req = http.request(options, (res) => {
-            res.setEncoding('utf8')
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
         });
-    
-        req.on('error', (e) => {
-            console.error(`problem with request: ${e.message}`);
-        });
-        req.end(message);
     },
 
     getBookCollectionsForUser: function(userId, callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/BookCollection/Collections?userId=' + userId,
+        request({
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/BookCollection/Collections?userId=' + userId,
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        http.get(options, (res) => {
-            res.setEncoding('utf8')
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
-            res.on('error', (e) => {
-                console.error(`problem with request: ${e.message}`);
-            });
         });
     },
 
     getAllBookGenres: function (callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/BookGenres',
+        request({
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/BookGenres',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        http.get(options, (res) => {
-            res.setEncoding('utf8')
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
-            res.on('error', (e) => {
-                console.error(`problem with request: ${e.message}`);
-            });
         });
     },
 
     getAllBookFormats: function (callback) {
-        let body = '';
-        const options = {
-            hostname: 'localhost',
-            port: 53656,
-            path: '/api/BookFormats',
+        request({
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+            url: 'http://localhost:58128/api/BookFormats',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
             }
-        };
-        http.get(options, (res) => {
-            res.setEncoding('utf8')
-            res.on('data', (chunk) => {
-                body += chunk;
-            });
-            res.on('end', () => {
-                callback(JSON.parse(body));
-            });
-            res.on('error', (e) => {
-                console.error(`problem with request: ${e.message}`);
-            });
         });
     }
 }

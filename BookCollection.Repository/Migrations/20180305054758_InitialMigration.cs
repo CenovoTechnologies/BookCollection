@@ -40,10 +40,12 @@ namespace BookCollection.Repository.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Email = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    MiddleInitial = table.Column<string>(nullable: true)
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 21, DateTimeKind.Utc)),
+                    Email = table.Column<string>(maxLength: 200, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    MiddleInitial = table.Column<string>(maxLength: 10, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 21, DateTimeKind.Utc))
                 },
                 constraints: table =>
                 {
@@ -56,7 +58,9 @@ namespace BookCollection.Repository.Migrations
                 {
                     CollectionId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CollectionName = table.Column<string>(nullable: true),
+                    CollectionName = table.Column<string>(maxLength: 100, nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 24, DateTimeKind.Utc)),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 24, DateTimeKind.Utc)),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -77,16 +81,18 @@ namespace BookCollection.Repository.Migrations
                     AuthorId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    BirthPlace = table.Column<string>(nullable: true),
+                    BirthPlace = table.Column<string>(maxLength: 150, nullable: true),
                     BookCollectionId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc)),
                     DeathDate = table.Column<DateTime>(nullable: false),
-                    DeathPlace = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    MiddleInitial = table.Column<string>(nullable: true),
-                    Pseudonym = table.Column<string>(nullable: true),
-                    WebsiteLink = table.Column<string>(nullable: true),
-                    WikipediaLink = table.Column<string>(nullable: true)
+                    DeathPlace = table.Column<string>(maxLength: 150, nullable: true),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(maxLength: 100, nullable: false),
+                    MiddleInitial = table.Column<string>(maxLength: 10, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc)),
+                    Pseudonym = table.Column<string>(maxLength: 100, nullable: true),
+                    WebsiteLink = table.Column<string>(maxLength: 150, nullable: true),
+                    WikipediaLink = table.Column<string>(maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,17 +114,17 @@ namespace BookCollection.Repository.Migrations
                     BookFormatId = table.Column<int>(nullable: false),
                     BookGenreId = table.Column<int>(nullable: false),
                     CollectionId = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    Dewey = table.Column<string>(nullable: true),
-                    Isbn = table.Column<string>(nullable: true),
-                    LocClassification = table.Column<string>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    NumberOfPages = table.Column<int>(nullable: true),
-                    Plot = table.Column<string>(nullable: true),
-                    Publisher = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc)),
+                    Dewey = table.Column<string>(maxLength: 100, nullable: true),
+                    Isbn = table.Column<string>(maxLength: 100, nullable: true),
+                    LocClassification = table.Column<string>(maxLength: 100, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc)),
+                    NumberOfPages = table.Column<int>(maxLength: 10, nullable: true),
+                    Plot = table.Column<string>(maxLength: 400, nullable: true),
+                    Publisher = table.Column<string>(maxLength: 150, nullable: true),
                     PublisherDate = table.Column<DateTime>(nullable: false),
-                    SubTitle = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true)
+                    SubTitle = table.Column<string>(maxLength: 200, nullable: true),
+                    Title = table.Column<string>(maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {

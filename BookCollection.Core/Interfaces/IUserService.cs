@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BookCollection.Core.Interfaces
+﻿namespace BookCollection.Core.Interfaces
 {
     public interface IUserService
     {

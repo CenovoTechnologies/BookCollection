@@ -17,19 +17,12 @@ namespace BookCollection.Service.Controllers
         
         [Route("Register")]
         [HttpPost]
-        public IActionResult RegisterUser(UserInfo userInfo)
+        public IActionResult RegisterUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var user = new User()
-            {
-                FirstName = userInfo.FirstName,
-                MiddleInitial = userInfo.MiddleInitial,
-                LastName = userInfo.LastName,
-                Email = userInfo.Email
-            };
 
             _userService.AddNewUser(user);
 

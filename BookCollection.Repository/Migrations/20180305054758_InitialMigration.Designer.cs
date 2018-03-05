@@ -11,7 +11,7 @@ using System;
 namespace BookCollection.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180304215858_InitialMigration")]
+    [Migration("20180305054758_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,25 +27,43 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<string>("BirthPlace");
+                    b.Property<string>("BirthPlace")
+                        .HasMaxLength(150);
 
                     b.Property<int>("BookCollectionId");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc));
+
                     b.Property<DateTime>("DeathDate");
 
-                    b.Property<string>("DeathPlace");
+                    b.Property<string>("DeathPlace")
+                        .HasMaxLength(150);
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("MiddleInitial");
+                    b.Property<string>("MiddleInitial")
+                        .HasMaxLength(10);
 
-                    b.Property<string>("Pseudonym");
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc));
 
-                    b.Property<string>("WebsiteLink");
+                    b.Property<string>("Pseudonym")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("WikipediaLink");
+                    b.Property<string>("WebsiteLink")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("WikipediaLink")
+                        .HasMaxLength(150);
 
                     b.HasKey("AuthorId");
 
@@ -65,27 +83,40 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<int>("CollectionId");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc));
 
-                    b.Property<string>("Dewey");
+                    b.Property<string>("Dewey")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Isbn");
+                    b.Property<string>("Isbn")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("LocClassification");
+                    b.Property<string>("LocClassification")
+                        .HasMaxLength(100);
 
-                    b.Property<DateTime>("ModifiedDate");
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 22, DateTimeKind.Utc));
 
-                    b.Property<int?>("NumberOfPages");
+                    b.Property<int?>("NumberOfPages")
+                        .HasMaxLength(10);
 
-                    b.Property<string>("Plot");
+                    b.Property<string>("Plot")
+                        .HasMaxLength(400);
 
-                    b.Property<string>("Publisher");
+                    b.Property<string>("Publisher")
+                        .HasMaxLength(150);
 
                     b.Property<DateTime>("PublisherDate");
 
-                    b.Property<string>("SubTitle");
+                    b.Property<string>("SubTitle")
+                        .HasMaxLength(200);
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.HasKey("BookId");
 
@@ -140,7 +171,17 @@ namespace BookCollection.Repository.Migrations
                     b.Property<int>("CollectionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CollectionName");
+                    b.Property<string>("CollectionName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 24, DateTimeKind.Utc));
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 24, DateTimeKind.Utc));
 
                     b.Property<int>("UserId");
 
@@ -156,13 +197,28 @@ namespace BookCollection.Repository.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 21, DateTimeKind.Utc));
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200);
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
-                    b.Property<string>("MiddleInitial");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("MiddleInitial")
+                        .HasMaxLength(10);
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2018, 3, 5, 5, 47, 58, 21, DateTimeKind.Utc));
 
                     b.HasKey("UserId");
 

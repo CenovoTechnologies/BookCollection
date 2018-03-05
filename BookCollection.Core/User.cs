@@ -21,8 +21,8 @@ namespace BookCollection.Core
 
         private Guid LicenseKey { get; set; }
 
-        DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
-        DateTime UpdatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace BookCollection.Repository
 
         public void Create<TEntity>(TEntity entity, string createdBy = null) where TEntity : class
         {
-            _context.Set<TEntity>().Add(entity);
+            _context.Add(entity);
         }
 
         public void Update<TEntity>(TEntity entity, string modifiedBy = null) where TEntity : class
