@@ -50,16 +50,19 @@ namespace BookCollection.Service
         public void CreateNewBookInCollection(Book book)
         {
             _repository.Create(book);
+            _repository.Save();
         }
 
         public void UpdateBookInCollection(Book book)
         {
             _repository.Update(book);
+            _repository.Save();
         }
 
         public void DeleteBookFromCollection(Book book)
         {
             _repository.Delete(book);
+            _repository.Save();
         }
     }
 }

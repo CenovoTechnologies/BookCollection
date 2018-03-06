@@ -32,6 +32,7 @@ namespace BookCollection.Service
 
         public void UpdateUser(User user)
         {
+            user.ModifiedDate = DateTime.UtcNow;
             _repository.Update(user);
             _repository.Save();
         }

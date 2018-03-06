@@ -99,8 +99,10 @@ function createAddBookWindow() {
 	});
 }
 
-ipcMain.on('book:add', function(e, title, author) {
-	mainWindow.webContents.send('book:add', title, author);
+ipcMain.on('book:add', function(e, request) {
+	controller.addBookToCollection(request, function(responseBody) {
+		mainWindow.webContents.send('book:add', responseBody);
+	});
 	addBookWindow.close();
 })
 
@@ -140,7 +142,6 @@ ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, em
 			protocol: 'file:',
 			slashes: true
 		}));
-		console.log(responseBody);
 		mainWindow.webContents.on('did-finish-load', function() {
 			mainWindow.webContents.send('userAccount:add', responseBody);
 		});

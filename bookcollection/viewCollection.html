@@ -35,8 +35,8 @@
             document.querySelector('#userId').innerHTML = userId;
         });
 
-        ipcRenderer.on('book:add', function(e, title, author) {
-            const bookItem = document.createTextNode(title + ' By: ' + author);
+        ipcRenderer.on('book:add', function(e, book) {
+            const bookItem = document.createTextNode(book.title + ' By: ' + book.author);
             bookList.appendChild(bookItem);
         });
 

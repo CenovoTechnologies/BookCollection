@@ -18,7 +18,7 @@ namespace BookCollection.Service.Controllers
 
         [Route("Create")]
         [HttpPost]
-        public IActionResult CreateBookCollection(CollectionInfo collectionInfo)
+        public IActionResult CreateBookCollection([FromBody] CollectionInfo collectionInfo)
         {
             var collection = new BooksCollection()
             {
@@ -38,7 +38,7 @@ namespace BookCollection.Service.Controllers
             return _bookCollectionService.RetrieveCollectionsByUserId(userId);
         }
 
-        // GET: api/BooksCollections/5
+        [Route("Collection")]
         public IActionResult GetBooksCollection(int id)
         {
             BooksCollection booksCollection = _bookCollectionService.RetrieveCollectionsByCollectionId(id);
@@ -50,29 +50,11 @@ namespace BookCollection.Service.Controllers
             return Ok(booksCollection);
         }
 
-        // POST: api/BooksCollections
-        public IActionResult PostBooksCollection(BooksCollection booksCollection)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _bookCollectionService.CreateNewCollection(booksCollection);
-
-            return CreatedAtRoute("DefaultApi", new { id = booksCollection.CollectionId }, booksCollection);
-        }
-
         // DELETE: api/BooksCollections/5
         public IActionResult DeleteBooksCollection(int id)
         {
             _bookCollectionService.DeleteCollectionById(id);
             return Ok();
-        }
-
-        private bool BooksCollectionExists(int id)
-        {
-            return _bookCollectionService.CheckIfCollectionExists(id);
         }
 
         public class CollectionInfo

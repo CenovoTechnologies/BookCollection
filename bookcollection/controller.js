@@ -73,7 +73,7 @@ module.exports = {
     getAllBookGenres: function (callback) {
         request({
             method: 'GET',
-            url: 'http://localhost:58128/api/BookGenres',
+            url: 'http://localhost:58128/api/BookGenres/All',
             headers:  { 
                 'Cache-Control': 'no-cache',
                 'Content-Type': 'application/json' 
@@ -89,11 +89,28 @@ module.exports = {
     getAllBookFormats: function (callback) {
         request({
             method: 'GET',
-            url: 'http://localhost:58128/api/BookFormats',
+            url: 'http://localhost:58128/api/BookFormats/All',
             headers:  { 
                 'Cache-Control': 'no-cache',
                 'Content-Type': 'application/json' 
             },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
+            }
+        });
+    },
+
+    addBookToCollection: function (message, callback) {
+        request({
+            method: 'POST',
+            url: 'http://localhost:58128/api/Book/Create',
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.parse(message),
             json: true
         }, function (error, response, body) {
             if (response.statusCode == 200) {

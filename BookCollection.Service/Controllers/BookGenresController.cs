@@ -17,6 +17,7 @@ namespace BookCollection.Service.Controllers
         }
         
         [HttpGet]
+        [Route("All")]
         public IList<BookGenre> GetBookGenre()
         {
             return _bookGenreService.GetAllBookGenres().ToList();

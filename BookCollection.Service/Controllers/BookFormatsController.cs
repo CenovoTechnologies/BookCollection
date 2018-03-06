@@ -17,13 +17,13 @@ namespace BookCollection.Service.Controllers
         }
         
         [HttpGet]
+        [Route("All")]
         public IList<BookFormat> GetBookFormat()
         {
             return _bookFormatService.GetAllBookFormats().ToList();
         }
 
         [HttpGet]
-        [Route("All")]
         public IActionResult GetBookFormat(int id)
         {
             BookFormat bookFormat = _bookFormatService.GetBookFormatById(id);

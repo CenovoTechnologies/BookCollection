@@ -56,6 +56,7 @@ namespace BookCollection.Service
         public void UpdateAuthor(Author author)
         {
             _repository.Update(author);
+            _repository.Save();
         }
     }
 }

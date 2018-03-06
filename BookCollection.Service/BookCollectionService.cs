@@ -20,21 +20,25 @@ namespace BookCollection.Service
         public void CreateNewCollection(BooksCollection booksCollection)
         {
             _repository.Create(booksCollection);
+            _repository.Save();
         }
 
         public void UpdateCollection(BooksCollection booksCollection)
         {
             _repository.Update(booksCollection);
+            _repository.Save();
         }
 
         public void DeleteCollection(BooksCollection booksCollection)
         {
             _repository.Delete(booksCollection);
+            _repository.Save();
         }
 
         public void DeleteCollectionById(int collectionId)
         {
             _repository.Delete<BooksCollection>(collectionId);
+            _repository.Save();
         }
 
         public BooksCollection RetrieveCollectionsByCollectionId(int collectionId)

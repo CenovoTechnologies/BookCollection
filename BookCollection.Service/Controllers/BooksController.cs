@@ -37,7 +37,7 @@ namespace BookCollection.Service.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult PostBook(Book book)
+        public IActionResult PostBook([FromBody] Book book)
         {
             if (!ModelState.IsValid)
             {
@@ -47,10 +47,10 @@ namespace BookCollection.Service.Controllers
             if (BookExists(book.BookId))
             {
                 _bookService.UpdateBookInCollection(book);
-                return Ok();
+                return Ok(book);
             }
             _bookService.CreateNewBookInCollection(book);
-            return Ok();
+            return Ok(book);
         }
 
         private bool BookExists(int id)

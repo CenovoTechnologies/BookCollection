@@ -31,7 +31,7 @@ namespace BookCollection.Service.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public IActionResult Login(LoginInfo loginInfo)
+        public IActionResult Login([FromBody] LoginInfo loginInfo)
         {
             var user = _userService.GetUserByEmail(loginInfo.Email);
 

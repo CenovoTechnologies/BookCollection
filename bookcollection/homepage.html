@@ -46,7 +46,7 @@
 
             ipcRenderer.on('user:getCollections', function(e, collectionInfo) {
                 for (j in collectionInfo) {
-                    appendCollectionToList(collectionInfo[j].CollectionId, collectionInfo[j].CollectionName);
+                    appendCollectionToList(collectionInfo[j].collectionId, collectionInfo[j].collectionName);
                 }
             });
     

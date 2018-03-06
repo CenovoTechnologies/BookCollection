@@ -77,7 +77,7 @@
 			ipcRenderer.on('bookFormat:getAll', function(e, formats) {
 				var options = '';
 				for (f in formats) {
-					options += '<option value='+formats[f].BookFormatId+'>'+formats[f].Format+'</option>';
+					options += '<option value='+formats[f].bookFormatId+'>'+formats[f].format+'</option>';
 				}
 				document.getElementById('bookFormats').innerHTML = options;
 			});
@@ -85,7 +85,7 @@
 			ipcRenderer.on('bookGenre:getAll', function(e, genres) {
 				var options = '';
 				for (g in genres) {
-					options += '<option value='+genres[g].BookGenreId+'>'+genres[g].Genre+'</option>';
+					options += '<option value='+genres[g].bookGenreId+'>'+genres[g].genre+'</option>';
 				}
 				document.getElementById('bookGenres').innerHTML = options;
 			});
@@ -108,10 +108,25 @@
 
 			function addBook(e) {
 				e.preventDefault();
-				const userId = document.querySelector('#userId').innerHTML;
+				var bookGenre = document.getElementById('bookGenres');
+				var bookFormat = document.getElementById('bookFormats');
 				const collectionId = document.querySelector('#collectionId').innerHTML;
-
-				ipcRenderer.send('book:add', userId, collectionId);
+				var request = JSON.stringify({
+					"CollectionId": collectionId,
+					"Title": document.getElementById('titleInput').value,
+					"SubTitle": document.getElementById('subTitleInput').value,
+					"Authors": [],
+					"ISBN": document.getElementById('IsbnInput').value,
+					"BookGenreId": bookGenre.options[bookGenre.selectedIndex].value,
+					"BookFormatId": bookFormat.options[bookFormat.selectedIndex].value,
+					"NumberOfPages": document.getElementById('pagesInput').value,
+					"Loc Classification": document.getElementById('locClassificationInput').value,
+					"Dewey": document.getElementById('deweyInput').value,
+					"Publisher": document.getElementById('publisherInput').value,
+					"PublisherDate": document.getElementById('publisherDateInput').value,
+					"Plot": document.getElementById('plotInput').value
+				});
+				ipcRenderer.send('book:add', request);
 			}
 		</script>
 	</body>
