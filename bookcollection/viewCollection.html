@@ -33,11 +33,18 @@
             document.querySelector('#collectionName').innerHTML = collectionName;
             document.querySelector('#collectionId').innerHTML = collectionId;
             document.querySelector('#userId').innerHTML = userId;
+            getBooksForCollection(collectionId);
         });
 
         ipcRenderer.on('book:add', function(e, book) {
-            const bookItem = document.createTextNode(book.title + ' By: ' + book.author);
-            bookList.appendChild(bookItem);
+            addBookToList(book);
+        });
+
+        ipcRenderer.on('collection:getBooks', function(e, books) {
+            console.log(books);
+            for(b in books) {
+                addBookToList(books[b]);
+            }
         });
 
         function createBook(e) {
@@ -48,6 +55,19 @@
         function returnToHomepage(e) {
             e.preventDefault();
             ipcRenderer.send('homepage:return');
+        }
+
+        function getBooksForCollection(collectionId) {
+            ipcRenderer.send('collection:getBooks');
+        }
+
+        function addBookToList(book) {
+            var text = book.title;
+            if (book.author != null) {
+                text = text + ' By: ' + book.author;
+            }
+            const bookItem = document.createTextNode(text);
+            bookList.appendChild(bookItem);
         }
         
 	</script>

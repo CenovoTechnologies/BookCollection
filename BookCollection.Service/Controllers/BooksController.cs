@@ -17,16 +17,21 @@ namespace BookCollection.Service.Controllers
 
         [HttpGet]
         [Route("All")]
-        public IList<Book> GetAllBooksInCollection(int collectionId)
+        public IActionResult GetAllBooksInCollection(int collectionId)
         {
-            return _bookService.RetrieveBooksByCollectionId(collectionId);
+            var books = _bookService.RetrieveBooksByCollectionId(collectionId);
+            if (books == null)
+            {
+                return NotFound();
+            }
+            return Ok(books);
         }
 
         [HttpGet]
         [Route("Get")]
         public IActionResult GetBookByBookId(int id)
         {
-            Book book = _bookService.RetrieveBookByBookId(id);
+            var book = _bookService.RetrieveBookByBookId(id);
             if (book == null)
             {
                 return NotFound();

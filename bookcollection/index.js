@@ -215,6 +215,12 @@ ipcMain.on('bookFormat:getAll', function(e) {
 	});
 });
 
+ipcMain.on('collection:getBooks', function(e, collectionId) {
+	controller.getAllBooksForCollection(collectionId, function(responseBody) {
+		mainWindow.webContents.send('collection:getBooks', responseBody);
+	});
+});
+
 const mainMenuTemplate = [
 	{
 		label:'File',
