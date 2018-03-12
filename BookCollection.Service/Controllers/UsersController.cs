@@ -1,5 +1,6 @@
 ﻿using BookCollection.Core;
 using BookCollection.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -17,16 +18,23 @@ namespace BookCollection.Service.Controllers
         
         [Route("Register")]
         [HttpPost]
-        public IActionResult RegisterUser([FromBody] User user)
+        public IActionResult RegisterUser([FromBody] UserInfo userInfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var user = new User
+            {
+                FirstName = userInfo.FirstName,
+                LastName = userInfo.LastName,
+                MiddleInitial = userInfo.MiddleInitial,
+                Email = userInfo.Email
+            };
 
-            _userService.AddNewUser(user);
+            _userService.AddNewUser(user, userInfo.Password);
 
-            return Ok(JsonConvert.SerializeObject(user));
+            return Ok(JsonConvert.SerializeObject(_userService.GetUserByEmail(user.Email)));
         }
 
         [Route("Login")]
@@ -37,7 +45,12 @@ namespace BookCollection.Service.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found");
+            }
+
+            if (!_userService.SignUserInWithPassword(user, loginInfo.Password))
+            {
+                return BadRequest("Login Request is not valid");
             }
 
             return Ok(JsonConvert.SerializeObject(user));

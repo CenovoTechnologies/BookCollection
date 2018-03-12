@@ -1,9 +1,11 @@
-﻿using BookCollection.Core.Interfaces;
+﻿using BookCollection.Core;
+using BookCollection.Core.Interfaces;
 using BookCollection.Repository;
 using BookCollection.Repository.DatabaseInitializer;
 using BookCollection.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,7 @@ namespace BookCollection.Service
             services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddMvc();
             services.AddTransient<IReadOnlyRepository, ReadOnlyRepository>();
             services.AddTransient<IRepository, CollectionRepository>();

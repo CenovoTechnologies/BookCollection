@@ -4,7 +4,7 @@
     {
         bool CheckIfUserExists(User user);
 
-        void AddNewUser(User user);
+        void AddNewUser(User user, string password);
 
         void UpdateUser(User user);
 
@@ -13,5 +13,7 @@
         User GetUserById(int id);
 
         User GetUserByEmail(string email);
+
+        bool SignUserInWithPassword(User user, string password);
     }
 }

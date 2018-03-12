@@ -17,8 +17,8 @@ namespace BookCollection.Core
 
         public ICollection<BooksCollection> BookCollections { get; set; }
 
-        private string Password { get; set; }
-
+        public string PasswordHash { get; set; }
+        
         private Guid LicenseKey { get; set; }
 
         public DateTime CreatedDate { get; set; }

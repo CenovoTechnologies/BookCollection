@@ -41,7 +41,6 @@
         });
 
         ipcRenderer.on('collection:getBooks', function(e, books) {
-            console.log(books);
             for(b in books) {
                 addBookToList(books[b]);
             }
