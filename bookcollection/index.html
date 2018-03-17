@@ -1,15 +1,29 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<title>Book Collection</title>
+	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.css"  media="screen,projection"/>
+	<title>Book Collection Software</title>
 </head>
-<body>
-	<h1>Welcome</h1>
-	<div>
-		<button type="button" id="loginBtn">Login</button>
-	</div>
-	<div>
-		<button type="button" id="createAccountBtn">Create An Account</button>
+<body class="grey lighten-4">
+	<div class="container">
+		<div class="row">
+			<h1 class="center-align">Welcome Book Collection Software</h1>
+		</div>
+		<div class="row">
+			<div class="center-align">
+				<button type="button" id="loginBtn" class="blue-grey darken-2 btn-large">
+					Login
+				</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center-align">
+				<button type="button" id="createAccountBtn" class="blue-grey darken-2 btn-large">
+					Create An Account
+				</button>
+			</div>
+		</div>
 	</div>
 
 	<script>
@@ -29,5 +43,6 @@
 			ipcRenderer.send('createAccountBtn:click');
 		}
 	</script>
+	<script type="text/javascript" src="js/materialize.js"></script>
 </body>
 </html>

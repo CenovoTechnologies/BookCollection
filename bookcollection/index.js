@@ -12,7 +12,10 @@ let loginWindow;
 let addBookWindow;
 
 app.on('ready', function() {
-	mainWindow = new BrowserWindow({});
+	mainWindow = new BrowserWindow({
+		width: 1000,
+		height: 1000
+	});
 
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'index.html'),
@@ -29,8 +32,8 @@ app.on('ready', function() {
 
 function createCollectionWindow() {
 	addCollectionWindow = new BrowserWindow({
-		width: 300,
-		height: 200,
+		width: 500,
+		height: 500,
 		title:'Add new book collection'
 	});
 
@@ -47,8 +50,8 @@ function createCollectionWindow() {
 
 function createAddUserWindow() {
 	addUserWindow = new BrowserWindow({
-		width: 500,
-		height: 500,
+		width: 800,
+		height: 800,
 		title:'Create a New User Account'
 	});
 
@@ -65,8 +68,8 @@ function createAddUserWindow() {
 
 function createLoginWindow() {
 	loginWindow = new BrowserWindow({
-		width: 300,
-		height: 200,
+		width: 500,
+		height: 500,
 		title: 'Login'
 	});
 
