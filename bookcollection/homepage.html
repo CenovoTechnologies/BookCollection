@@ -1,99 +1,27 @@
 <!Doctype html>
 <html lang="en">
-<head>
-	<title>Homepage</title>
-</head>
-<body>
-        <div id="userInfo">
-            <div hidden id="userId"></div>
-            <h2 id="nameOfUser"></h2>
-        </div>
-        <h4>Book Collections</h4>
+    <head>
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css"  media="screen,projection"/>
+        <title>Homepage</title>
+    </head>
+    <body class="grey lighten-4">
         <div>
-            <button type="button" id="addCollectionBtn">Add New Collection</button>
+            <nav>
+                <div id="userInfo" class="nav-wrapper blue-grey darken-3">
+                    <div hidden id="userId"></div>
+                    <div class="brand-logo left">Book Collections</div>
+                    <ul id="menu" class="right hide-on-med-and-down">
+                        <li><a href="#" id="addCollectionBtn">Add New Collection</a></li>
+                        <li><a href="#" id="nameOfUser"></a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="bookCollectionList" class="collection">
+                <!-- <li class="collection-header"><h4>Book Collections</h4></li> -->
+            </div>
         </div>
-        <div id='bookCollectionList'>
-        </div>
-    
-        <script>
-            const electron = require('electron');
-            const {ipcRenderer} = electron;
-            const collectionList = document.querySelector('#bookCollectionList');
-            const addCollectionBtn = document.querySelector('#addCollectionBtn');
-
-            addCollectionBtn.addEventListener('click', createCollection);
-    
-            ipcRenderer.on('collection:add', function(e, collectionInfo) {
-                var json = JSON.parse(collectionInfo);
-                const btn = document.createElement('button');
-                const itemText = document.createTextNode(json.CollectionName);
-                const itemId = document.createTextNode(json.CollectionId);
-                btn.appendChild(itemText);
-                btn.id = itemId;
-                collectionList.appendChild(btn);
-            });
-
-            ipcRenderer.on('userAccount:add', function(e, userInfo) {
-                var json = JSON.parse(userInfo);
-                addUserInfoToScreen(json.UserId, json.FirstName, json.LastName);
-            });
-
-            ipcRenderer.on('userAccount:login', function(e, userInfo) {
-                var json = JSON.parse(userInfo);
-                addUserInfoToScreen(json.UserId, json.FirstName, json.LastName);
-                getCollectionsForUsers(json.UserId);
-            });
-
-            ipcRenderer.on('user:getCollections', function(e, collectionInfo) {
-                for (j in collectionInfo) {
-                    appendCollectionToList(collectionInfo[j].collectionId, collectionInfo[j].collectionName);
-                }
-            });
-    
-            collectionList.addEventListener('dblclick', removeCollection);
-
-            collectionList.addEventListener('click', openCollection);
-    
-            function addUserInfoToScreen(userId, firstName, lastName) {
-                const nameText = document.createTextNode(firstName + ' ' + lastName);
-                const id = document.createTextNode(userId);
-                document.querySelector('#userId').appendChild(id);
-                document.querySelector('#nameOfUser').appendChild(nameText);
-            }
-
-            function getCollectionsForUsers(userId) {
-                ipcRenderer.send('user:getCollections', userId);
-            }
-
-            function appendCollectionToList(collectionId, collectionName) {
-                const btn = document.createElement('button');
-                const itemText = document.createTextNode(collectionName);
-                const itemId = document.createTextNode(collectionId);
-                btn.appendChild(itemText);
-                btn.id = collectionId;
-                collectionList.appendChild(btn);
-            }
-
-            function removeCollection(e) {
-                e.target.remove();
-            }
-
-            function revealCollectionStatistics(e) {
-                //show off to the right-side collection stats
-            }
-
-            function createCollection(e) {
-                e.preventDefault();
-                ipcRenderer.send('addCollectionBtn:click', document.getElementById('userId').innerHTML);
-            }
-
-            function openCollection(e) {
-                e.preventDefault();
-                const collectionName = e.target.firstChild.nodeValue;
-                const collectionId = e.target.id;
-                const userId = document.getElementById('userId').innerHTML;
-                ipcRenderer.send('collection:open', collectionName, collectionId, userId);
-            }
-        </script>
-</body>
+        <script type="text/javascript" src="js/homepage.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+    </body>
 </html>

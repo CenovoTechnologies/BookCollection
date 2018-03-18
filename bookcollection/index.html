@@ -1,8 +1,8 @@
 <!Doctype html>
 <html lang="en">
 <head>
-	<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css"  media="screen,projection"/>
 	<title>Book Collection Software</title>
 </head>
 <body class="grey lighten-4">
@@ -25,24 +25,7 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
-		const electron = require('electron');
-		const {ipcRenderer} = electron;
-
-		document.querySelector('#loginBtn').addEventListener('click', createLogin);
-		document.querySelector('#createAccountBtn').addEventListener('click', createUser);
-
-		function createLogin(e) {
-			e.preventDefault();
-			ipcRenderer.send('loginBtn:click');
-		}
-
-		function createUser(e) {
-			e.preventDefault();
-			ipcRenderer.send('createAccountBtn:click');
-		}
-	</script>
-	<script type="text/javascript" src="js/materialize.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ let addBookWindow;
 
 app.on('ready', function() {
 	mainWindow = new BrowserWindow({
-		width: 1000,
+		width: 1200,
 		height: 1000
 	});
 

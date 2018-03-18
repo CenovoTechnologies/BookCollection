@@ -1,4 +1,6 @@
-﻿namespace BookCollection.Core.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace BookCollection.Core.Interfaces
 {
     public interface IUserService
     {

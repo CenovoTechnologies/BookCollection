@@ -1,8 +1,8 @@
 <!Doctype html>
 <html lang="en">
     <head>
-        <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="css/fontawesome-all.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css"  media="screen,projection"/>
         <title>Login</title>
     </head>
     <body class="grey lighten-4">
@@ -25,20 +25,7 @@
                 </div>
             </form>   
         </div>
-        <script>
-            const electron = require('electron');
-            const {ipcRenderer} = electron;
-
-            const loginForm = document.querySelector('form');
-            loginForm.addEventListener('submit', submitForm);
-            
-            function submitForm(e) {
-                e.preventDefault();
-                const email = document.querySelector('#emailInput').value;
-                const password = document.querySelector('#passwordInput').value;
-                ipcRenderer.send('userAccount:login', email, password);
-            }
-        </script>
-        <script type="text/javascript" src="js/materialize.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
     </body>
 </html>

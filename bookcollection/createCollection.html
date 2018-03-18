@@ -1,39 +1,29 @@
 <!Doctype html>
 <html lang="en">
-<head>
-	<title>Add New Book Collection</title>
-</head>
-<body>
-	<div hidden id="userId"></div>
-	<form>
-		<div>
-			<label>Enter Collection Name</label>
-			<input type="text" id="collectionNameInput" autofocus>
+	<head>
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css"  media="screen,projection"/>
+		<title>Add New Book Collection</title>
+	</head>
+	<body class="grey lighten-4">
+		<div class="container">
+			<div hidden id="userId"></div>
+			<form>
+				<div class="row">
+					<label>Enter Collection Name</label>
+					<input type="text" id="collectionNameInput" required autofocus>
+				</div>
+				<div class="row">
+					<div class="center-align">
+						<button type="submit" class="blue-grey darken-2 btn">
+							Add New Collection
+						</button>
+					</div>
+				</div>
+			</form>
 		</div>
-		<button type="submit">Add New Collection</button>
-	</form>
-
-	<script>
-		const electron = require('electron');
-		const {ipcRenderer} = electron;
-
-		const form = document.querySelector('form');
-		form.addEventListener('submit', submitForm);
-
-		ipcRenderer.on('collection:init', function(e, userId) {
-			setUserId(userId);
-        });
-
-		function setUserId(userId) {
-			const id = document.createTextNode(userId);
-            document.querySelector('#userId').appendChild(id);
-		}
-
-		function submitForm(e) {
-			e.preventDefault();
-			const collectionName = document.querySelector('#collectionNameInput').value;
-			ipcRenderer.send('collection:add', collectionName, document.getElementById('userId').innerHTML);
-		}
-	</script>
-</body>
+		
+		<script type="text/javascript" src="js/createCollection.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+	</body>
 </html>
