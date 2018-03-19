@@ -86,8 +86,8 @@ function createLoginWindow() {
 
 function createAddBookWindow() {
 	addBookWindow = new BrowserWindow({
-		width: 500,
-		height: 500,
+		width: 800,
+		height: 900,
 		title: 'Add New Book'
 	});
 
@@ -126,7 +126,7 @@ ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) 
 		protocol: 'file:',
 		slashes: true
 	}));
-	mainWindow.webContents.on('did-finish-load', function() {
+	mainWindow.webContents.once('did-finish-load', function() {
 		mainWindow.webContents.send('collection:open', collectionName, collectionId, userId);
 	});
 });

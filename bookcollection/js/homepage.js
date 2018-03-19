@@ -27,10 +27,6 @@ ipcRenderer.on('user:getCollections', function(e, collectionInfo) {
     }
 });
     
-//collectionList.addEventListener('dblclick', removeCollection);
-
-collectionList.addEventListener('click', openCollection);
-    
 function addUserInfoToScreen(userId, firstName, lastName) {
     const nameText = document.createTextNode(firstName + ' ' + lastName);
     const id = document.createTextNode(userId);
@@ -49,7 +45,10 @@ function appendCollectionToList(collectionId, collectionName) {
     btn.appendChild(itemText);
     btn.id = collectionId;
     btn.classList = "collection-item blue-grey-text text-darken-4";
-    btn.href="#";
+    btn.href="javascript:void(0)";
+    btn.onclick=function(e) {
+        openCollection(e);
+    };
     collectionList.appendChild(btn);
 }
 
@@ -63,9 +62,7 @@ function createCollection(e) {
 }
 
 function openCollection(e) {
-    e.preventDefault();
     const collectionName = e.target.firstChild.nodeValue;
-    const collectionId = e.target.id;
     const userId = document.getElementById('userId').innerHTML;
-    ipcRenderer.send('collection:open', collectionName, collectionId, userId);
+    ipcRenderer.send('collection:open', collectionName, e.target.id, userId);
 }

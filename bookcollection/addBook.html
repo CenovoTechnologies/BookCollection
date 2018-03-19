@@ -1,133 +1,95 @@
 <!Doctype html>
 <html lang="en">
-	<head>
-		<title>Add New Book</title>
-	</head>
-	<body>
+
+<head>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css" media="screen,projection" />
+	<title>Add New Book</title>
+</head>
+
+<body class="grey lighten-4">
+	<div class="container">
 		<div id="usefulInfo">
 			<div hidden id="userId"></div>
 			<div hidden id="collectionId"></div>
 		</div>
 		<form>
-			<div>
-				<label>Title</label>
-				<input type="text" id="titleInput" autofocus>
+			<div class="row">
+				<div class="col s6">
+					<label>Title</label>
+					<input type="text" id="titleInput" autofocus>
+				</div>
+				<div class="col s6">
+					<label>Sub-Title</label>
+					<input type="text" id="subTitleInput">
+				</div>
 			</div>
-			<div>
-				<label>Sub-Title</label>
-				<input type="text" id="subTitleInput">
+			<div class="row">
+				<div class="col s12">
+					<label>Author(s)</label>
+					<input type="text" id="authorInput">
+				</div>
 			</div>
-			<div>
-				<label>Author</label>
-				<input type="text" id="authorInput">
+			<div class="row">
+				<div class="col s6">
+					<label>ISBN</label>
+					<input type="text" id="IsbnInput">
+				</div>
+				<div class="col s6">
+					<label>Number of Pages</label>
+					<input type="number" id="pagesInput">
+				</div>
 			</div>
-			<div>
-				<label>ISBN</label>
-				<input type="text" id="IsbnInput">
+			<div class="row">
+				<div class="input-field col s6">
+					<select id="bookGenres">
+					</select>
+					<label>Genre</label>
+				</div>
+				<div class="input-field col s6">
+					<select id="bookFormats">
+					</select>
+					<label>Format</label>
+				</div>
 			</div>
-			<div>
-				<label>Genre</label>
-				<select id="bookGenres"></select>
+			<div class="row">
+				<div class="col s6">
+					<label>LocClassification</label>
+					<input type="text" id="locClassificationInput">
+				</div>
+				<div class="col s6">
+					<label>Dewey</label>
+					<input type="text" id="deweyInput">
+				</div>
 			</div>
-			<div>
-				<label>Format</label>
-				<select id="bookFormats"></select>
+			<div class="row">
+				<div class="col s6">
+					<label>Publisher</label>
+					<input type="text" id="publisherInput">
+				</div>
+				<div class="col s6">
+					<label>Publisher Date</label>
+					<input type="date" id="publisherDateInput">
+				</div>
 			</div>
-			<div>
-				<label>Number of Pages</label>
-				<input type="number" id="pagesInput">
+			<div class="row">
+				<div class="col s12">
+					<label>Plot</label>
+					<textarea name="plot" id="plotInput" rows="5" cols="15"></textarea>
+				</div>
 			</div>
-			<div>
-				<label>LocClassification</label>
-				<input type="text" id="locClassificationInput">
+			<div class="row">
+				<div class="center-align">
+					<button type="submit" id="addBookBtn" class="blue-grey darken-2 btn">
+						Add New Book
+					</button>
+				</div>
 			</div>
-			<div>
-				<label>Dewey</label>
-				<input type="text" id="deweyInput">
-			</div>
-			<div>
-				<label>Publisher</label>
-				<input type="text" id="publisherInput">
-			</div>
-			<div>
-				<label>Publisher Date</label>
-				<input type="date" id="publisherDateInput">
-			</div>
-			<div>
-				<label>Plot</label>
-				<textarea name="plot" id="plotInput" rows="5" cols="15"></textarea>
-			</div>
-			<button type="submit" id="addBookBtn">Add New Book</button>
 		</form>
+	</div>
 
-		<script>
-			const electron = require('electron');
-			const {ipcRenderer} = electron;
-			const addBookBtn = document.querySelector('#addBookBtn');
+	<script type="text/javascript" src="js/addBook.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
 
-			addBookBtn.addEventListener('click', addBook);
-			
-			ipcRenderer.on('addBook:init', function(e, userId, collectionId) {
-				setUserId(userId);
-				setCollectionId(collectionId);
-				getBookGenres();
-				getBookFormats();
-			});
-			
-			ipcRenderer.on('bookFormat:getAll', function(e, formats) {
-				var options = '';
-				for (f in formats) {
-					options += '<option value='+formats[f].bookFormatId+'>'+formats[f].format+'</option>';
-				}
-				document.getElementById('bookFormats').innerHTML = options;
-			});
-
-			ipcRenderer.on('bookGenre:getAll', function(e, genres) {
-				var options = '';
-				for (g in genres) {
-					options += '<option value='+genres[g].bookGenreId+'>'+genres[g].genre+'</option>';
-				}
-				document.getElementById('bookGenres').innerHTML = options;
-			});
-
-			function setUserId(userId) {
-				document.querySelector('#userId').innerHTML = userId;
-			}
-
-			function setCollectionId(collectionId) {
-				document.querySelector('#collectionId').innerHTML = collectionId;
-			}
-
-			function getBookGenres() {
-				ipcRenderer.send('bookGenre:getAll');
-			}
-
-			function getBookFormats() {
-				ipcRenderer.send('bookFormat:getAll');
-			}
-
-			function addBook(e) {
-				e.preventDefault();
-				var bookGenre = document.getElementById('bookGenres');
-				var bookFormat = document.getElementById('bookFormats');
-				const collectionId = document.querySelector('#collectionId').innerHTML;
-				var request = JSON.stringify({
-					"CollectionId": collectionId,
-					"Title": document.getElementById('titleInput').value,
-					"SubTitle": document.getElementById('subTitleInput').value,
-					"Authors": [],
-					"ISBN": document.getElementById('IsbnInput').value,
-					"BookGenreId": bookGenre.options[bookGenre.selectedIndex].value,
-					"BookFormatId": bookFormat.options[bookFormat.selectedIndex].value,
-					"NumberOfPages": document.getElementById('pagesInput').value,
-					"Loc Classification": document.getElementById('locClassificationInput').value,
-					"Dewey": document.getElementById('deweyInput').value,
-					"Publisher": document.getElementById('publisherInput').value,
-					"PublisherDate": document.getElementById('publisherDateInput').value,
-					"Plot": document.getElementById('plotInput').value
-				});
-				ipcRenderer.send('book:add', request);
-			}
-		</script>
-	</body>
 </html>
