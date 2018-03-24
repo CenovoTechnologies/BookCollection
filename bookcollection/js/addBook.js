@@ -9,8 +9,6 @@ ipcRenderer.on('addBook:init', function (e, userId, collectionId) {
     setCollectionId(collectionId);
     getBookGenres();
     getBookFormats();
-    var elem = document.querySelector('.datepicker');
-    var instance = M.Datepicker.init(elem);
 });
 
 ipcRenderer.on('bookFormat:getAll', function (e, formats) {

@@ -27,7 +27,7 @@ namespace BookCollection.Service
             services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
-            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddScoped<IPasswordHasher<User>, Utilities.PasswordHasher<User>>();
             services.AddMvc();
             services.AddTransient<IReadOnlyRepository, ReadOnlyRepository>();
             services.AddTransient<IRepository, CollectionRepository>();
