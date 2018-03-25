@@ -19,7 +19,7 @@ namespace BookCollection.Service
 
         public IList<Book> RetrieveBooksByCollectionId(int collectionId)
         {
-            return _readOnlyRepository.GetAllAsync<Book>(x => x.CollectionId == collectionId).Result.ToList();
+            return _readOnlyRepository.GetAll<Book>(x => x.CollectionId == collectionId).ToList();
         }
 
         public IList<Book> RetrieveBooksByAuthorId(int authorId)
@@ -39,7 +39,7 @@ namespace BookCollection.Service
 
         public Book RetrieveBookByBookId(int bookId)
         {
-            return _readOnlyRepository.GetByIdAsync<Book>(bookId).Result;
+            return _readOnlyRepository.GetAsync<Book>(x => x.BookId == bookId, "BookGenre,BookFormat").Result.First();
         }
 
         public bool CheckIfBookExists(int bookId)

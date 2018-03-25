@@ -4,6 +4,7 @@
 <head>
 	<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
 	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="css/collections.css" media="screen,projection" />
 	<title>Add New Book</title>
 </head>
 
@@ -27,32 +28,103 @@
 		</div>
 		<div class="content">
 			<div class="row">
-				<p class="flow-text" id="subTitle"></p>
-			</div>
-
-			<div class="row">
-				<p class="flow-text" id="plot"></p>
+				<div class="col s12 m12">
+					<div class="card blue-grey lighten-4" id="bookInfo">
+						<div class="card-tabs col s12">
+							<ul class="tabs tabs-fixed-width blue-grey lighten-4" id="bookInfoTabs">
+								<li class="tab">
+									<a class="active black-text" href="#panel1">Information</a>
+								</li>
+								<li class="tab">
+									<a class="black-text" href="#panel3">Publisher Information</a>
+								</li>
+								<li class="tab">
+									<a class="black-text" href="#panel4">Plot</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-content blue-grey lighten-4 black-text">
+							<div id="panel1">
+								<div class="card-action infoHeader topBit">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Title:</span>
+										<span class="black-text col s11" id="title"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Sub-Title:</span>
+										<span class="black-text col s11" id="subTitle"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Authors:</span>
+										<span class="black-text col s11" id="authors"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">ISBN:</span>
+										<span class="black-text col s11" id="isbn"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Genre:</span>
+										<span class="black-text col s11" id="genre"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Format:</span>
+										<span class="black-text col s11" id="format"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s2">Number of Pages:</span>
+										<span class="black-text col s10" id="pageNum"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s2">LoC Classification:</span>
+										<span class="black-text col s10" id="locClass"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Dewey:</span>
+										<span class="black-text col s11" id="dewey"></span>
+									</div>
+								</div>
+							</div>
+							<div id="panel3">
+								<div class="card-action infoHeader topBit">
+									<div class="row infoRow">
+										<span class="header black-text col s1">Publisher:</span>
+										<span class="black-text col s11" id="publisher"></span>
+									</div>
+								</div>
+								<div class="card-action infoHeader">
+									<div class="row infoRow">
+										<span class="header black-text col s2">Date Published:</span>
+										<span class="black-text col s10" id="publishedDate"></span>
+									</div>
+								</div>
+							</div>
+							<div id="panel4">
+								<div class="card-content black-text infoContent">
+									<span id="plot"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</nav>
-
-	<script>
-		const electron = require('electron');
-		const { ipcRenderer } = electron;
-
-		ipcRenderer.on('book:open', function (e, responseBody, userId) {
-			document.querySelector('#bookTitle').innerHTML = responseBody.title;
-			document.querySelector('#collectionId').innerHTML = responseBody.collectionId;
-			document.querySelector('#userId').innerHTML = userId;
-			document.querySelector('#bookId').innerHTML = bookId;
-			fillOutBookPage(responseBody);
-		});
-
-		function fillOutBookPage(book) {
-			document.querySelector('#subTitle').innerHTML = book.subTitle;
-			document.querySelector('#plot').innerHTML = book.plot;
-		}
-	</script>
 
 	<script type="text/javascript" src="js/viewBook.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>

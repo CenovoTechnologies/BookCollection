@@ -8,11 +8,18 @@ const bookList = document.querySelector('#bookList');
 addBookBtn.addEventListener('click', createBook);
 backBtn.addEventListener('click', returnToHomepage);
 
-ipcRenderer.on('collection:open', function(e, collectionName, collectionId, userId) {
+ipcRenderer.on('collection:open', function(e, collectionName, collectionId, userId, books) {
     document.querySelector('#collectionName').innerHTML = collectionName;
     document.querySelector('#collectionId').innerHTML = collectionId;
     document.querySelector('#userId').innerHTML = userId;
-    getBooksForCollection(collectionId);
+    addBooksToPage(books);
+});
+
+ipcRenderer.on('viewCollection:return', function(e, collection) {
+    document.querySelector('#collectionName').innerHTML = collection.collectionName;
+    document.querySelector('#collectionId').innerHTML = collection.collectionId;
+    document.querySelector('#userId').innerHTML = collection.userId;
+    addBooksToPage(collection.books);
 });
 
 ipcRenderer.on('book:add', function(e, book) {
@@ -20,10 +27,14 @@ ipcRenderer.on('book:add', function(e, book) {
 });
 
 ipcRenderer.on('collection:getBooks', function(e, books) {
+    addBooksToPage(books);
+});
+
+function addBooksToPage(books) {
     for(b in books) {
         addBookToList(books[b]);
     }
-});
+}
 
 function createBook(e) {
     e.preventDefault();
@@ -31,7 +42,10 @@ function createBook(e) {
 }
 
 function returnToHomepage(e) {
-    e.preventDefault();
+    var list = document.getElementById('bookList');
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
     ipcRenderer.send('homepage:return');
 }
 

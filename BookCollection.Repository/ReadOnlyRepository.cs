@@ -26,7 +26,12 @@ namespace BookCollection.Repository
                 query = query.Where(filter);
             }
 
-            includeProperties?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            includeProperties = includeProperties ?? string.Empty;
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
 
             return query;
         }

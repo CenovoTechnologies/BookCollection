@@ -1,0 +1,24 @@
+.card .infoHeader {
+    padding:0;
+    border-bottom: 1px solid rgba(20,20,20,0.2);
+}
+
+.card .topBit {
+    padding-top:24px;
+}
+
+.card .infoContent {
+    padding:0px 16px;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: rgba(20,20,20,0.2);
+}
+
+.infoRow {
+    margin-bottom:0;
+}
+
+.infoRow .header {
+    font-weight: bold;
+}

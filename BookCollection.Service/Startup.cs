@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace BookCollection.Service
 {
@@ -28,7 +29,10 @@ namespace BookCollection.Service
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
             services.AddScoped<IPasswordHasher<User>, Utilities.PasswordHasher<User>>();
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
             services.AddTransient<IReadOnlyRepository, ReadOnlyRepository>();
             services.AddTransient<IRepository, CollectionRepository>();
             services.AddTransient<IAuthorService, AuthorService>();

@@ -119,12 +119,12 @@ module.exports = {
         });
     },
 
-    getAllBooksForCollection: function (message, callback) {
+    getAllBooksForCollection: function (collectionId, callback) {
         request({
             method: 'GET',
             url: 'http://localhost:58128/api/Book/All',
             qs: { 
-                collectionId: message
+                collectionId: collectionId
             },
             headers:  { 
                 'Cache-Control': 'no-cache',
@@ -138,12 +138,31 @@ module.exports = {
         });
     },
 
-    getBookByBookId: function (message, callback) {
+    getBookByBookId: function (bookId, callback) {
         request({
             method: 'GET',
             url: 'http://localhost:58128/api/Book/Get',
             qs: { 
-                id: message
+                id: bookId
+            },
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
+            }
+        });
+    },
+
+    getCollectionById: function (collectionId, callback) {
+        request({
+            method: 'GET',
+            url: 'http://localhost:58128/api/BookCollection/Collection',
+            qs: { 
+                id: collectionId
             },
             headers:  { 
                 'Cache-Control': 'no-cache',

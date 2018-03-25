@@ -47,7 +47,7 @@ function appendCollectionToList(collectionId, collectionName) {
     btn.classList = "collection-item blue-grey-text text-darken-4";
     btn.href="javascript:void(0)";
     btn.onclick=function(e) {
-        openCollection(e);
+        openCollection(e, collectionId);
     };
     collectionList.appendChild(btn);
 }
@@ -61,8 +61,8 @@ function createCollection(e) {
     ipcRenderer.send('addCollectionBtn:click', document.getElementById('userId').innerHTML);
 }
 
-function openCollection(e) {
+function openCollection(e, collectionId) {
     const collectionName = e.target.firstChild.nodeValue;
     const userId = document.getElementById('userId').innerHTML;
-    ipcRenderer.send('collection:open', collectionName, e.target.id, userId);
+    ipcRenderer.send('collection:open', collectionName, collectionId, userId);
 }
