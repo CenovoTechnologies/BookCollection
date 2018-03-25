@@ -126,7 +126,7 @@ ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) 
 		protocol: 'file:',
 		slashes: true
 	}));
-	mainWindow.webContents.once('did-finish-load', function() {
+	mainWindow.webContents.on('did-finish-load', function() {
 		mainWindow.webContents.send('collection:open', collectionName, collectionId, userId);
 	});
 });
@@ -221,6 +221,19 @@ ipcMain.on('bookFormat:getAll', function(e) {
 ipcMain.on('collection:getBooks', function(e, collectionId) {
 	controller.getAllBooksForCollection(collectionId, function(responseBody) {
 		mainWindow.webContents.send('collection:getBooks', responseBody);
+	});
+});
+
+ipcMain.on('book:open', function(e, bookId, userId) {
+	controller.getBookByBookId(bookId, function(responseBody) {
+		mainWindow.loadURL(url.format({
+			pathname: path.join(__dirname, 'viewBook.html'),
+			protocol: 'file:',
+			slashes: true
+		}));
+		mainWindow.webContents.on('did-finish-load', function() {
+			mainWindow.webContents.send('book:open', responseBody, userId);
+		});
 	});
 });
 

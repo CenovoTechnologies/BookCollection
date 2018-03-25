@@ -136,5 +136,24 @@ module.exports = {
                 callback(body);
             }
         });
+    },
+
+    getBookByBookId: function (message, callback) {
+        request({
+            method: 'GET',
+            url: 'http://localhost:58128/api/Book/Get',
+            qs: { 
+                id: message
+            },
+            headers:  { 
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/json' 
+            },
+            json: true
+        }, function (error, response, body) {
+            if (response.statusCode == 200) {
+                callback(body);
+            }
+        });
     }
 }

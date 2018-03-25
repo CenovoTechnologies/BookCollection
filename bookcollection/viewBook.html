@@ -1,16 +1,61 @@
 <!Doctype html>
 <html lang="en">
+
 <head>
-	<title>View Book</title>
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="css/fontawesome-all.min.css" media="screen,projection" />
+	<title>Add New Book</title>
 </head>
-<body>
-	<form>
-		<button type="submit">Edit Book</button>
-	</form>
+
+<body class="grey lighten-4">
+	<nav>
+		<div class="nav-wrapper blue-grey darken-3">
+			<div id="usefulInfo">
+				<div hidden id="userId"></div>
+				<div hidden id="collectionId"></div>
+				<div hidden id="bookId"></div>
+			</div>
+			<div id="bookTitle" class="brand-logo left"></div>
+			<ul id="menu" class="right hide-on-med-and-down">
+				<li>
+					<a href="#" id="editBookBtn">Edit Book</a>
+				</li>
+				<li>
+					<a href="#" id="backBtn">Return to Collection</a>
+				</li>
+			</ul>
+		</div>
+		<div class="content">
+			<div class="row">
+				<p class="flow-text" id="subTitle"></p>
+			</div>
+
+			<div class="row">
+				<p class="flow-text" id="plot"></p>
+			</div>
+		</div>
+	</nav>
 
 	<script>
-        const electron = require('electron');
-		const {ipcRenderer} = electron;
+		const electron = require('electron');
+		const { ipcRenderer } = electron;
+
+		ipcRenderer.on('book:open', function (e, responseBody, userId) {
+			document.querySelector('#bookTitle').innerHTML = responseBody.title;
+			document.querySelector('#collectionId').innerHTML = responseBody.collectionId;
+			document.querySelector('#userId').innerHTML = userId;
+			document.querySelector('#bookId').innerHTML = bookId;
+			fillOutBookPage(responseBody);
+		});
+
+		function fillOutBookPage(book) {
+			document.querySelector('#subTitle').innerHTML = book.subTitle;
+			document.querySelector('#plot').innerHTML = book.plot;
+		}
 	</script>
+
+	<script type="text/javascript" src="js/viewBook.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
+
 </html>

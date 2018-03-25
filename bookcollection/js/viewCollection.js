@@ -44,6 +44,15 @@ function addBookToList(book) {
     if (book.author != null) {
          text = text + book.author;
     } 
+    const li = document.createElement("li");
+    li.classList="collection-item avatar";
+    li.id=book.bookId;
+    li.appendChild(createRow(book,authorText));
+    bookList.appendChild(li);
+}
+
+
+function createDiv1(book, authorText) {
     const bookIcon = document.createElement("i");
     bookIcon.classList="fas fa-book circle";
     const title = document.createElement("span");
@@ -51,11 +60,56 @@ function addBookToList(book) {
     title.innerHTML=book.title;
     const p = document.createElement("p");
     p.innerHTML = authorText;
-    const li = document.createElement("li");
-    li.classList="collection-item avatar";
-    li.id=book.bookId;
-    li.appendChild(bookIcon);
-    li.appendChild(title);
-    li.appendChild(p);
-    bookList.appendChild(li);
+    const div1 = document.createElement("div");
+    div1.classList="col s8";
+    div1.appendChild(bookIcon);
+    div1.appendChild(title);
+    div1.appendChild(p);
+    return div1;
+}
+
+function createDiv2(bookId) {
+    const div2 = document.createElement("div");
+    div2.classList="col s4";
+    div2.appendChild(createEditButton(bookId));
+    div2.appendChild(createViewButton(bookId));
+    return div2;
+}
+
+function createRow(book, authorText) {
+    const row = document.createElement("div");
+    row.classList="row";
+    row.appendChild(createDiv1(book, authorText));
+    row.appendChild(createDiv2(book.bookId));
+    return row;
+}
+
+function createViewButton(bookId) {
+    const viewIcon = document.createElement("i");
+    viewIcon.classList="fas fa-chevron-circle-right fa-2x grey-text text-darken-4 right";
+    viewIcon.style="margin-top:1rem;"
+    const viewButton = document.createElement("a");
+    viewButton.href="#";
+    viewButton.id="view_"+bookId;
+    viewButton.onclick=function(e) {
+        viewBook(e, bookId);
+    };
+    viewButton.appendChild(viewIcon);
+    return viewButton;
+}
+
+function createEditButton(bookId) {
+    const editIcon = document.createElement("i");
+    editIcon.classList="far fa-edit fa-2x grey-text text-darken-4 right";
+    editIcon.style = "margin-top:1rem;"
+    const editButton = document.createElement("a");
+    editButton.href="#";
+    editButton.id="edit_"+bookId;
+    editButton.appendChild(editIcon);
+    return editButton;
+}
+
+function viewBook(e, bookId) {
+    const userId = document.getElementById('userId').innerHTML;
+    ipcRenderer.send('book:open', bookId, userId);
 }
