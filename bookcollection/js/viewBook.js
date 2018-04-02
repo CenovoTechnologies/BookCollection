@@ -23,7 +23,7 @@ function returnToViewCollection(e) {
 function fillOutBookPage(book) {
     document.querySelector('#title').innerHTML = book.title;
     document.querySelector('#subTitle').innerHTML = book.subTitle;
-    document.querySelector('#authors').innerHTML = book.bookAuthors;
+    document.querySelector('#authors').innerHTML = createAuthorsTextField(book.bookAuthors);
     document.querySelector('#isbn').innerHTML = book.isbn;
     document.querySelector('#genre').innerHTML = book.bookGenre.genre;
     document.querySelector('#format').innerHTML = book.bookFormat.format;
@@ -34,4 +34,19 @@ function fillOutBookPage(book) {
         document.querySelector('#publishedDate').innerHTML = book.publisherDate;
     }
     document.querySelector('#plot').innerHTML = book.plot;
+}
+
+function createAuthorsTextField(bookAuthors) {
+    var authors = '';
+    bookAuthors.forEach( function(ab, index) {
+        authors = authors.concat(ab.author.firstName + ' ');
+        if (typeof ab.author.middleInitial != 'undefined' && ab.author.middleInitial) {
+            authors = authors.concat(ab.author.middleInitial + ' ');
+        }
+        authors = authors.concat(ab.author.lastName);
+        if (index < bookAuthors.length-1) {
+            authors = authors.concat(', ');
+        }
+    });
+    return authors
 }

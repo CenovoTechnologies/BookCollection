@@ -40,7 +40,10 @@ namespace BookCollection.Service
 
         public Book RetrieveBookByBookId(int bookId)
         {
-            return _readOnlyRepository.GetAsync<Book>(x => x.BookId == bookId, "BookGenre,BookFormat").Result.First();
+            var book = _readOnlyRepository.GetAsync<Book>(x => x.BookId == bookId, "BookGenre,BookFormat").Result
+                .First();
+            book.BookAuthors = (ICollection<BookAuthor>) _readOnlyRepository.GetAll<BookAuthor>(x => x.BookId == bookId, "Author");
+            return book;
         }
 
         public bool CheckIfBookExists(int bookId)
