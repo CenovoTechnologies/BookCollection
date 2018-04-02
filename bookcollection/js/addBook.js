@@ -56,7 +56,7 @@ function addBook(e) {
         "CollectionId": collectionId,
         "Title": document.getElementById('titleInput').value,
         "SubTitle": document.getElementById('subTitleInput').value,
-        "Authors": [],
+        "Authors": MapAuthors(document.getElementById('authorInput').value),
         "ISBN": document.getElementById('IsbnInput').value,
         "BookGenreId": bookGenre.options[bookGenre.selectedIndex].value,
         "BookFormatId": bookFormat.options[bookFormat.selectedIndex].value,
@@ -64,8 +64,26 @@ function addBook(e) {
         "Loc Classification": document.getElementById('locClassificationInput').value,
         "Dewey": document.getElementById('deweyInput').value,
         "Publisher": document.getElementById('publisherInput').value,
-        "PublisherDate": document.getElementById('publisherDateInput').value,
+        // "PublisherDate": document.getElementById('publisherDateInput').value,
         "Plot": document.getElementById('plotInput').value
     });
     ipcRenderer.send('book:add', request);
+}
+
+function MapAuthors(authorInput) {
+    var array = authorInput.split(', ');
+    var jsonArray = new Array();
+    array.forEach( function(string) {
+        var a = string.split(' ');
+        var author = new Object();
+        author.FirstName = a[0];
+        if (a.length == 3) {
+            author.MiddleInitial = a[1];
+            author.LastName = a[2];
+        } else {
+            author.LastName = a[1];
+        }
+        jsonArray.push(author);
+    });
+    return jsonArray;
 }

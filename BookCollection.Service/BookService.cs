@@ -1,4 +1,5 @@
-﻿using BookCollection.Core;
+﻿using System;
+using BookCollection.Core;
 using System.Collections.Generic;
 using System.Linq;
 using BookCollection.Core.Interfaces;
@@ -49,8 +50,26 @@ namespace BookCollection.Service
 
         public void CreateNewBookInCollection(Book book)
         {
-            _repository.Create(book);
-            _repository.Save();
+            using (var transaction = _repository.BeginTransaction())
+            {
+                try
+                {
+                    _repository.Create(book);
+                    var bookAuthors = book.BookAuthors;
+                    foreach (var bookAuthor in bookAuthors)
+                    {
+                        bookAuthor.Author.BookCollectionId = book.CollectionId;
+                        _repository.Create(bookAuthor.Author);
+                    }
+                    _repository.Save();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+            
         }
 
         public void UpdateBookInCollection(Book book)

@@ -1,12 +1,15 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BookCollection.Repository.Interfaces
 {
     public interface IRepository
     {
-        void Create<TEntity>(TEntity entity, string createdBy = null) where TEntity : class;
+        void Create<TEntity>(TEntity entity) where TEntity : class;
 
-        void Update<TEntity>(TEntity entity, string modifiedBy = null) where TEntity : class;
+        void Update<TEntity>(TEntity entity) where TEntity : class;
+
+        IDbContextTransaction BeginTransaction();
 
         void Delete<TEntity>(object id) where TEntity : class;
 
