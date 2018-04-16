@@ -37,7 +37,7 @@ namespace BookCollection.Repository
                     .HasMaxLength(50)
                     .IsRequired());
             modelBuilder.Entity<User>(entity =>
-                entity.Property(x => x.MiddleInitial)
+                entity.Property(x => x.MiddleName)
                     .HasMaxLength(10));
             modelBuilder.Entity<User>(entity =>
                 entity.Property(x => x.CreatedDate)
@@ -79,7 +79,7 @@ namespace BookCollection.Repository
                     .HasMaxLength(100)
                     .IsRequired());
             modelBuilder.Entity<Author>(entity =>
-                entity.Property(x => x.MiddleInitial)
+                entity.Property(x => x.MiddleName)
                     .HasMaxLength(10));
             modelBuilder.Entity<Author>(entity =>
                 entity.Property(x => x.BirthPlace)

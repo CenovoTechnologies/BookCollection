@@ -34,7 +34,7 @@ function isFormValid() {
 function doPasswordsMatch() {
     const password = document.querySelector('#passwordInput').value;
     const password2 = document.querySelector('#repeatPasswordInput').value;
-    return password == password2;
+    return password === password2;
 }
 
 function isEmailValid(email) {
@@ -44,9 +44,9 @@ function isEmailValid(email) {
 
 function sendToMain() {
     const firstName = document.querySelector('#firstNameInput').value;
-    const middleInitial = document.querySelector('#middleInitialInput').value;
+    const middleName = document.querySelector('#middleNameInput').value;
     const lastName = document.querySelector('#lastNameInput').value;
     const email = document.querySelector('#emailInput').value;
     const password = document.querySelector('#passwordInput').value;
-    ipcRenderer.send('userAccount:add', firstName, middleInitial, lastName, email, password);
+    ipcRenderer.send('userAccount:add', firstName, middleName, lastName, email, password);
 }

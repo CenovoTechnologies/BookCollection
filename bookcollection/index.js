@@ -133,11 +133,11 @@ ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) 
 	});	
 });
 
-ipcMain.on('userAccount:add', function(e, firstName, middleInitial, lastName, email, password) {
+ipcMain.on('userAccount:add', function(e, firstName, middleName, lastName, email, password) {
 	var message = JSON.stringify({
 		"FirstName": firstName,
 		"LastName": lastName,
-		"MiddleInitial": middleInitial,
+		"MiddleName": middleName,
 		"Email": email,
 		"Password": password
 	});

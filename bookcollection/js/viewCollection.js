@@ -78,8 +78,8 @@ function createAuthorList(authorIds) {
     authorIds.forEach( function(id, index) {
         var author = authors.find(x => x.authorId === id);
         authorText = authorText.concat(author.firstName + ' ');
-        if (typeof author.middleInitial != 'undefined' && author.middleInitial) {
-            authorText = authorText.concat(author.middleInitial + ' ');
+        if (typeof author.middleName != 'undefined' && author.middleName) {
+            authorText = authorText.concat(author.middleNAme + ' ');
         }
         authorText = authorText.concat(author.lastName);
         if (index < authorIds.length-1) {

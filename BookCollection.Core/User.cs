@@ -13,7 +13,7 @@ namespace BookCollection.Core
 
         public string LastName { get; set; }
 
-        public string MiddleInitial { get; set; }
+        public string MiddleName { get; set; }
 
         public ICollection<BooksCollection> BookCollections { get; set; }
 

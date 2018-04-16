@@ -78,7 +78,7 @@ function MapAuthors(authorInput) {
         var author = new Object();
         author.FirstName = a[0];
         if (a.length == 3) {
-            author.MiddleInitial = a[1];
+            author.MiddleName = a[1];
             author.LastName = a[2];
         } else {
             author.LastName = a[1];
