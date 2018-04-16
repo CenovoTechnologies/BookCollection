@@ -43,7 +43,28 @@ namespace BookCollection.Service
 
         public BooksCollection RetrieveCollectionsByCollectionId(int collectionId)
         {
-            return _readOnlyRepository.GetAsync<BooksCollection>(x => x.CollectionId == collectionId, "Books").Result.First();
+            var collection = _readOnlyRepository.GetAsync<BooksCollection>(x => x.CollectionId == collectionId, "Books,Authors").Result.First();
+            foreach (var book in collection.Books)
+            {
+                book.BookAuthors = _readOnlyRepository.GetAll<BookAuthor>(x => x.BookId == book.BookId)
+                    .Select(ab => new BookAuthor
+                    {
+                        AuthorId = ab.AuthorId,
+                        BookId = ab.BookId
+                    })
+                    .ToList();
+            }
+            foreach (var author in collection.Authors)
+            {
+                author.BookAuthors = _readOnlyRepository.GetAll<BookAuthor>(x => x.AuthorId == author.AuthorId)
+                    .Select(ab => new BookAuthor
+                    {
+                        AuthorId = ab.AuthorId,
+                        BookId = ab.BookId
+                    })
+                    .ToList();
+            }
+            return collection;
         }
 
         public IList<BooksCollection> RetrieveCollectionsByUserId(int userId)

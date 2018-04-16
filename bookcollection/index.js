@@ -121,14 +121,14 @@ ipcMain.on('collection:add', function(e, collectionName, userId) {
 });
 
 ipcMain.on('collection:open', function(e, collectionName, collectionId, userId) {
-	controller.getAllBooksForCollection(collectionId, function(responseBody) {
+	controller.getCollectionById(collectionId, function(responseBody) {
 		mainWindow.loadURL(url.format({
 			pathname: path.join(__dirname, 'viewCollection.html'),
 			protocol: 'file:',
 			slashes: true
 		}));
 		mainWindow.webContents.once('did-finish-load', function() {
-			mainWindow.webContents.send('collection:open', collectionName, collectionId, userId, responseBody);
+			mainWindow.webContents.send('collection:open', responseBody);
 		});
 	});	
 });

@@ -4,21 +4,24 @@ const collection = document.querySelector('#collectionName');
 const addBookBtn = document.querySelector('#addBookBtn');
 const backBtn = document.querySelector('#backBtn');
 const bookList = document.querySelector('#bookList');
+var authors = null;
 
 addBookBtn.addEventListener('click', createBook);
 backBtn.addEventListener('click', returnToHomepage);
 
-ipcRenderer.on('collection:open', function(e, collectionName, collectionId, userId, books) {
-    document.querySelector('#collectionName').innerHTML = collectionName;
-    document.querySelector('#collectionId').innerHTML = collectionId;
-    document.querySelector('#userId').innerHTML = userId;
-    addBooksToPage(books);
+ipcRenderer.on('collection:open', function(e, collection) {
+    document.querySelector('#collectionName').innerHTML = collection.collectionName;
+    document.querySelector('#collectionId').innerHTML = collection.collectionId;
+    document.querySelector('#userId').innerHTML = collection.userId;
+    authors = collection.authors;
+    addBooksToPage(collection.books);
 });
 
 ipcRenderer.on('viewCollection:return', function(e, collection) {
     document.querySelector('#collectionName').innerHTML = collection.collectionName;
     document.querySelector('#collectionId').innerHTML = collection.collectionId;
     document.querySelector('#userId').innerHTML = collection.userId;
+    authors = collection.authors;
     addBooksToPage(collection.books);
 });
 
@@ -54,10 +57,15 @@ function getBooksForCollection(collectionId) {
 }
 
 function addBookToList(book) {
-    var authorText = "Author(s): ";
-    if (book.author != null) {
-         text = text + book.author;
-    } 
+    var authorIds = new Array();
+    if (book.bookAuthors != null) {
+        book.bookAuthors.forEach( function (ab) {
+            if (ab.bookId === book.bookId) {
+                authorIds.push(ab.authorId);
+            }
+        });
+    }
+    var authorText = createAuthorList(authorIds);
     const li = document.createElement("li");
     li.classList="collection-item avatar";
     li.id=book.bookId;
@@ -65,6 +73,21 @@ function addBookToList(book) {
     bookList.appendChild(li);
 }
 
+function createAuthorList(authorIds) {
+    var authorText = 'Author(s): ';
+    authorIds.forEach( function(id, index) {
+        var author = authors.find(x => x.authorId === id);
+        authorText = authorText.concat(author.firstName + ' ');
+        if (typeof author.middleInitial != 'undefined' && author.middleInitial) {
+            authorText = authorText.concat(author.middleInitial + ' ');
+        }
+        authorText = authorText.concat(author.lastName);
+        if (index < authorIds.length-1) {
+            authorText = authorText.concat(', ');
+        }
+    });
+    return authorText;
+}
 
 function createDiv1(book, authorText) {
     const bookIcon = document.createElement("i");
