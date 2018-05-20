@@ -40,12 +40,12 @@ namespace BookCollection.Repository.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 946, DateTimeKind.Utc)),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 478, DateTimeKind.Utc)),
                     Email = table.Column<string>(maxLength: 200, nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    MiddleInitial = table.Column<string>(maxLength: 10, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 946, DateTimeKind.Utc)),
+                    MiddleName = table.Column<string>(maxLength: 10, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 478, DateTimeKind.Utc)),
                     PasswordHash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -60,8 +60,8 @@ namespace BookCollection.Repository.Migrations
                     CollectionId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CollectionName = table.Column<string>(maxLength: 100, nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 949, DateTimeKind.Utc)),
-                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 949, DateTimeKind.Utc)),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 482, DateTimeKind.Utc)),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 482, DateTimeKind.Utc)),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -84,13 +84,13 @@ namespace BookCollection.Repository.Migrations
                     BirthDate = table.Column<DateTime>(nullable: false),
                     BirthPlace = table.Column<string>(maxLength: 150, nullable: true),
                     BookCollectionId = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 947, DateTimeKind.Utc)),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc)),
                     DeathDate = table.Column<DateTime>(nullable: false),
                     DeathPlace = table.Column<string>(maxLength: 150, nullable: true),
                     FirstName = table.Column<string>(maxLength: 100, nullable: false),
                     LastName = table.Column<string>(maxLength: 100, nullable: false),
-                    MiddleInitial = table.Column<string>(maxLength: 10, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 947, DateTimeKind.Utc)),
+                    MiddleName = table.Column<string>(maxLength: 10, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc)),
                     Pseudonym = table.Column<string>(maxLength: 100, nullable: true),
                     WebsiteLink = table.Column<string>(maxLength: 150, nullable: true),
                     WikipediaLink = table.Column<string>(maxLength: 150, nullable: true)
@@ -115,13 +115,16 @@ namespace BookCollection.Repository.Migrations
                     BookFormatId = table.Column<int>(nullable: false),
                     BookGenreId = table.Column<int>(nullable: false),
                     CollectionId = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 947, DateTimeKind.Utc)),
+                    CreatedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc)),
                     Dewey = table.Column<string>(maxLength: 100, nullable: true),
                     Isbn = table.Column<string>(maxLength: 100, nullable: true),
                     LocClassification = table.Column<string>(maxLength: 100, nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 3, 12, 3, 39, 46, 948, DateTimeKind.Utc)),
+                    ModifiedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc)),
                     NumberOfPages = table.Column<int>(maxLength: 10, nullable: true),
                     Plot = table.Column<string>(maxLength: 400, nullable: true),
+                    PublishedDay = table.Column<int>(nullable: false),
+                    PublishedMonth = table.Column<int>(nullable: false),
+                    PublishedYear = table.Column<int>(nullable: false),
                     Publisher = table.Column<string>(maxLength: 150, nullable: true),
                     PublisherDate = table.Column<DateTime>(nullable: false),
                     SubTitle = table.Column<string>(maxLength: 200, nullable: true),

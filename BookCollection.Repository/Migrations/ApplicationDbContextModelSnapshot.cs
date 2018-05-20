@@ -33,7 +33,7 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 202, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc));
 
                     b.Property<DateTime>("DeathDate");
 
@@ -53,7 +53,7 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 202, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc));
 
                     b.Property<string>("Pseudonym")
                         .HasMaxLength(100);
@@ -84,7 +84,7 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 202, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc));
 
                     b.Property<string>("Dewey")
                         .HasMaxLength(100);
@@ -97,13 +97,19 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 202, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 480, DateTimeKind.Utc));
 
                     b.Property<int?>("NumberOfPages")
                         .HasMaxLength(10);
 
                     b.Property<string>("Plot")
                         .HasMaxLength(400);
+
+                    b.Property<int>("PublishedDay");
+
+                    b.Property<int>("PublishedMonth");
+
+                    b.Property<int>("PublishedYear");
 
                     b.Property<string>("Publisher")
                         .HasMaxLength(150);
@@ -176,11 +182,11 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 204, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 482, DateTimeKind.Utc));
 
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 204, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 482, DateTimeKind.Utc));
 
                     b.Property<int>("UserId");
 
@@ -198,7 +204,7 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 201, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 478, DateTimeKind.Utc));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -217,7 +223,7 @@ namespace BookCollection.Repository.Migrations
 
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2018, 4, 16, 3, 27, 5, 201, DateTimeKind.Utc));
+                        .HasDefaultValue(new DateTime(2018, 4, 29, 23, 56, 33, 478, DateTimeKind.Utc));
 
                     b.Property<string>("PasswordHash");
 
